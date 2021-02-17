@@ -1,0 +1,336 @@
+{
+  "Key": "MZ1613372226436",
+  "Name": "HttpClient",
+  "Type": "Workflow",
+  "Folder": "http",
+  "Owner": "mzadmin",
+  "Is Valid": true,
+  "Access Groups -read -write -execute": [
+    "Administrator",
+    "Administrator",
+    "Administrator"
+  ],
+  "Auxiliary Data": {
+    "Entries": [
+      {
+        "Key": "Type",
+        "Value": "Realtime"
+      },
+      {
+        "Key": "Standalone",
+        "Value": "false"
+      },
+      {
+        "Key": "Count",
+        "Value": "1"
+      },
+      {
+        "Key": "Autostart",
+        "Value": "false"
+      },
+      {
+        "Key": "DynamicConfig",
+        "Value": "true"
+      }
+    ],
+    "$Version": 2.0
+  },
+  "Data": {
+    "dynamicInstances": true,
+    "errorMimNames": [],
+    "fieldTypes": [],
+    "groupTags": [],
+    "instances": [
+      {
+        "cellValues": [],
+        "instanceId": 1,
+        "instanceName": "workflow_1",
+        "validType": "Not Validated",
+        "validationError": "Not Validated",
+        "$Version": 1.0
+      }
+    ],
+    "nodes": [
+      {
+        "Name": "Pulse_1",
+        "ID": 33159177,
+        "Classname": "com.digitalroute.mz.pulse.agent.PulseCollectorAgentInspRT",
+        "Configuration": [
+          {
+            "Type": 1,
+            "Classname": "com.digitalroute.mz.pulse.agent.PulseCollectorAgentInspRT",
+            "Data": {
+              "center": 1.0,
+              "data": "",
+              "dataEntered": true,
+              "dataRandomData": false,
+              "dataRandomOrderSeq": false,
+              "dataRangeEnd": 10,
+              "dataRangeStart": 0,
+              "dataSequentialOrder": true,
+              "dataSequentialRange": false,
+              "dataSize": 1,
+              "dataUnit": "Bytes",
+              "intervalFixed": 1,
+              "intervalType": "Fixed",
+              "poissonRate": 1.0,
+              "rate": 1,
+              "start": 1,
+              "stop": 10,
+              "unit": "SECONDS",
+              "width": 1.0,
+              "$Type": "dr.PulseData",
+              "$Version": 10.0
+            },
+            "$Version": 1.0
+          }
+        ],
+        "XYposition": {
+          "x": 100,
+          "y": 170,
+          "$Version": 1.0
+        },
+        "$Version": 2.0
+      },
+      {
+        "Name": "Analysis_1",
+        "ID": -540133671,
+        "Classname": "com.digitalroute.wfc.analysis.AnalysisRealtimeInsp",
+        "Configuration": [
+          {
+            "Type": 1,
+            "Classname": "com.digitalroute.wfc.analysis.AnalysisRealtimeInsp",
+            "Data": {
+              "sourceCode": "consume {
+    
+    http.RequestCycle udr = udrCreate(http.RequestCycle);
+    udr.host = \"petstore-0\";
+    udr.port = \"8899\";
+    udr.secure = false;
+    udr.path = \"/pets\";
+    udr.method = \"GET\";
+    
+    udrRoute(udr);
+}",
+              "udrTypes": [
+                {
+                  "typeName": "PulseUDR",
+                  "$Version": 1.0
+                }
+              ],
+              "$Type": "dr.StuffyMapperData",
+              "$Version": 10.0
+            },
+            "$Version": 1.0
+          }
+        ],
+        "XYposition": {
+          "x": 270,
+          "y": 170,
+          "$Version": 1.0
+        },
+        "$Version": 2.0
+      },
+      {
+        "Name": "Analysis_2",
+        "ID": 186233777,
+        "Classname": "com.digitalroute.wfc.analysis.AnalysisRealtimeInsp",
+        "Configuration": [
+          {
+            "Type": 1,
+            "Classname": "com.digitalroute.wfc.analysis.AnalysisRealtimeInsp",
+            "Data": {
+              "sourceCode": "consume {
+    
+    debug(input);
+}",
+              "udrTypes": [
+                {
+                  "typeName": "http.RequestCycle",
+                  "$Version": 1.0
+                }
+              ],
+              "$Type": "dr.StuffyMapperData",
+              "$Version": 10.0
+            },
+            "$Version": 1.0
+          }
+        ],
+        "XYposition": {
+          "x": 680,
+          "y": 160,
+          "$Version": 1.0
+        },
+        "$Version": 2.0
+      },
+      {
+        "Name": "HTTP2Client_1",
+        "ID": -754734462,
+        "Classname": "com.digitalroute.http2.client.agent.Http2ClientInsp",
+        "Configuration": [
+          {
+            "Type": 1,
+            "Classname": "com.digitalroute.http2.client.agent.Http2ClientInsp",
+            "Data": {
+              "authenticationType": "<None>",
+              "requestTimeout": 5000,
+              "strategies": [
+                {
+                  "configuration": {
+                    "folder": "http",
+                    "key": "MZ1613372244567",
+                    "name": "petstore",
+                    "type": "Open API Profile",
+                    "$Version": 1.0
+                  },
+                  "useOpenApi": true,
+                  "validate": false,
+                  "$Type": "dr.HTTP2.OpenAPI",
+                  "$Version": 10.1
+                }
+              ],
+              "useSSL": false,
+              "useSSLNRF": false,
+              "$Type": "dr.HTTP2ClientData",
+              "$Version": 11.0
+            },
+            "$Version": 1.0
+          }
+        ],
+        "XYposition": {
+          "x": 470,
+          "y": 160,
+          "$Version": 1.0
+        },
+        "$Version": 2.0
+      }
+    ],
+    "persistentData": {
+      "$Version": 10.0
+    },
+    "routes": [
+      {
+        "destinationId": -540133671,
+        "id": -2,
+        "name": "r_1",
+        "realtimeMode": "Not set",
+        "routeStyle": "Bezier",
+        "sourceId": 33159177,
+        "stroke": [
+          {
+            "x": 127,
+            "y": 155,
+            "$Version": 1.0
+          },
+          {
+            "x": 167,
+            "y": 143,
+            "$Version": 1.0
+          },
+          {
+            "x": 204,
+            "y": 139,
+            "$Version": 1.0
+          },
+          {
+            "x": 244,
+            "y": 152,
+            "$Version": 1.0
+          }
+        ],
+        "$Version": 1.0
+      },
+      {
+        "destinationId": -754734462,
+        "id": -3,
+        "name": "r_2",
+        "realtimeMode": "Not set",
+        "routeStyle": "Bezier",
+        "sourceId": -540133671,
+        "stroke": [
+          {
+            "x": 297,
+            "y": 154,
+            "$Version": 1.0
+          },
+          {
+            "x": 345,
+            "y": 137,
+            "$Version": 1.0
+          },
+          {
+            "x": 393,
+            "y": 134,
+            "$Version": 1.0
+          },
+          {
+            "x": 444,
+            "y": 146,
+            "$Version": 1.0
+          }
+        ],
+        "$Version": 1.0
+      },
+      {
+        "destinationId": 186233777,
+        "id": -4,
+        "name": "r_3",
+        "realtimeMode": "Not set",
+        "routeStyle": "Bezier",
+        "sourceId": -754734462,
+        "stroke": [
+          {
+            "x": 497,
+            "y": 144,
+            "$Version": 1.0
+          },
+          {
+            "x": 549,
+            "y": 128,
+            "$Version": 1.0
+          },
+          {
+            "x": 602,
+            "y": 128,
+            "$Version": 1.0
+          },
+          {
+            "x": 654,
+            "y": 145,
+            "$Version": 1.0
+          }
+        ],
+        "$Version": 1.0
+      }
+    ],
+    "services": [],
+    "templateValid": true,
+    "threadData": {
+      "countInterval": 1,
+      "queueSize": 1000,
+      "queueStrategy": "Blocking queue",
+      "queueWorkerStrategy": "RoundRobin",
+      "standalone": false,
+      "threads": 8,
+      "$Version": 10.0
+    },
+    "wfExecutionConfig": {
+      "debugType": "Event",
+      "executionSettings": {
+        "distributionType": "Round Robin",
+        "enabled": false,
+        "executionGroups": [],
+        "$Version": 1.0
+      },
+      "noOfFilesToKeep": 0,
+      "$Version": 10.0
+    },
+    "wfIdCounter": 1,
+    "$Type": "dr.WorkflowRealtimeData",
+    "$Version": 1.0
+  },
+  "documentation": "",
+  "Is Dry Run": false,
+  "$Type": "dr.Configuration",
+  "$Version": 10.1
+}
