@@ -21,7 +21,7 @@ spec:
     limits:
       memory: "320.0Mi"
       cpu: "1000m"
-  disabled: true
+  disabled: false
   workflows:
   - template: "http.HttpServer"
     instances:
