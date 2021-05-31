@@ -10,6 +10,4 @@ Deploy to cluster using helm command:
 
 To verify that resources are correctly deployed:
 
-* kubectl describe ecd my-ecd
-
-
+`kubectl describe ecd my-ecd`
