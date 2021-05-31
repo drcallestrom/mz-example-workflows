@@ -1,0 +1,74 @@
+metadata:
+  name: "wfb-forwarder"
+apiVersion: "mz.digitalroute.com/v1alpha1"
+kind: "ECDeployment"
+spec:
+  ecGroups: "wfb-forwarder"
+  jvmArgs:
+  - "Xms256m"
+  - "Xmx256m"
+  exportJmxMetrics: false
+  resources:
+    requests:
+      memory: "320.0Mi"
+      cpu: "500m"
+    limits:
+      memory: "640.0Mi"
+      cpu: "1000m"
+  workflows:
+  - template: "wfb_streamId.forwarder"
+    instances:
+    - name: "forwarder"
+      useExtRef: "{}"
+      parameters: "{\"StreamID\":\"1\"}"
+    packageVersion: "1.0"
+    packageName: "wfbstream"
+  manualUpgrade: false
+---
+metadata:
+  name: "wfb-collector"
+apiVersion: "mz.digitalroute.com/v1alpha1"
+kind: "ECDeployment"
+spec:
+  ecGroups: "wfb-collector"
+  jvmArgs:
+  - "Xms256m"
+  - "Xmx256m"
+  exportJmxMetrics: false
+  resources:
+    requests:
+      memory: "320.0Mi"
+      cpu: "500m"
+    limits:
+      memory: "640.0Mi"
+      cpu: "1000m"
+  workflows:
+  - template: "wfb_streamId.collector"
+    instances:
+    - name: "collector"
+      useExtRef: "{}"
+      parameters: "{\"StreamID\":\"1\"}"
+    packageVersion: "1.0"
+    packageName: "wfbstream"
+  services:
+  - spec:
+      type: "ClusterIP"
+      ports:
+      - protocol: "TCP"
+        port: 4444
+        name: "wfb-collector"
+        targetPort: 4444
+  manualUpgrade: false
+  ports:
+  - containerPort: 4444
+  autoscale:
+    maxReplicas: 4
+    minReplicas: 1
+    metrics:
+    - resource:
+        name: "cpu"
+        target:
+          averageUtilization: 70
+          type: "Utilization"
+      type: "Resource"
+

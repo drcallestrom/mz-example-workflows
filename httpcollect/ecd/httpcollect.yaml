@@ -1,0 +1,45 @@
+metadata:
+  name: "httpcollect"
+apiVersion: "mz.digitalroute.com/v1alpha1"
+kind: "ECDeployment"
+spec:
+  ecGroups: "httpcollect"
+  jvmArgs:
+  - "Xms512m"
+  - "Xmx512m"
+  ingress:
+    paths:
+    - path: "/collection"
+      port: 8080
+    host: "ingress.example.digitalroute.net"
+    tlsSecretName: "mz-cert"
+  exportJmxMetrics: false
+  resources:
+    requests:
+      memory: "320.0Mi"
+      cpu: "500m"
+    limits:
+      memory: "640.0Mi"
+      cpu: "1000m"
+  workflows:
+  - template: "http.collect"
+    instances:
+    - name: "collect"
+      useExtRef: "{}"
+      parameters: "{}"
+    packageVersion: "1.0"
+    packageName: "HttpCollect"
+  manualUpgrade: false
+  ports:
+  - containerPort: 8080
+  autoscale:
+    maxReplicas: 4
+    minReplicas: 1
+    metrics:
+    - resource:
+        name: "cpu"
+        target:
+          averageUtilization: 50
+          type: "Utilization"
+      type: "Resource"
+

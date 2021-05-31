@@ -1,0 +1,338 @@
+{
+  "Key": "MZ1587377897293",
+  "Name": "forwarder",
+  "Type": "Workflow",
+  "Folder": "wfb_streamId",
+  "Owner": "mzadmin",
+  "Is Valid": true,
+  "Access Groups -read -write -execute": [
+    "Administrator",
+    "Administrator",
+    "Administrator"
+  ],
+  "Auxiliary Data": {
+    "Entries": [
+      {
+        "Key": "Type",
+        "Value": "Realtime"
+      },
+      {
+        "Key": "Standalone",
+        "Value": "false"
+      },
+      {
+        "Key": "Count",
+        "Value": "1"
+      },
+      {
+        "Key": "Autostart",
+        "Value": "false"
+      },
+      {
+        "Key": "DynamicConfig",
+        "Value": "true"
+      }
+    ],
+    "$Version": 2.0
+  },
+  "Data": {
+    "dynamicInstances": true,
+    "errorMimNames": [],
+    "fieldTypes": [
+      {
+        "exportAlias": "StreamID",
+        "exportDescription": "Stream ID to connect to downstream system",
+        "fieldInstanceType": "Instance",
+        "fieldName": "streamId",
+        "nodeId": -4,
+        "nodeName": "Workflow_Bridge",
+        "section": "WFB_Forwarder",
+        "$Version": 1.0
+      }
+    ],
+    "groupTags": [],
+    "instances": [
+      {
+        "cellValues": [
+          {
+            "type": "DEFAULT",
+            "$Version": 1.0
+          }
+        ],
+        "instanceId": 1,
+        "instanceName": "workflow_1",
+        "validType": "Not Validated",
+        "validationError": "Not Validated",
+        "$Version": 1.0
+      }
+    ],
+    "nodes": [
+      {
+        "Name": "Analysis",
+        "ID": -3,
+        "Classname": "com.digitalroute.wfc.analysis.AnalysisRealtimeInsp",
+        "Configuration": [
+          {
+            "Type": 1,
+            "Classname": "com.digitalroute.wfc.analysis.AnalysisRealtimeInsp",
+            "Data": {
+              "sourceCode": "consume {
+    wfb.ConsumeCycleUDR udr = udrCreate(wfb.ConsumeCycleUDR);
+    udr.Data = input;
+    udr.LoadId =(int) input.Sequence%1024;
+    udrRoute(udr);
+}",
+              "udrTypes": [
+                {
+                  "typeName": "PulseUDR",
+                  "$Version": 1.0
+                }
+              ],
+              "$Type": "dr.StuffyMapperData",
+              "$Version": 10.0
+            },
+            "$Version": 1.0
+          }
+        ],
+        "XYposition": {
+          "x": 210,
+          "y": 60,
+          "$Version": 1.0
+        },
+        "$Version": 2.0
+      },
+      {
+        "Name": "Workflow_Bridge",
+        "ID": -4,
+        "Classname": "com.digitalroute.workflowbridge.rt.fwd.WfbRTFwdInsp",
+        "Configuration": [
+          {
+            "Type": 1,
+            "Classname": "com.digitalroute.workflowbridge.rt.fwd.WfbRTFwdInsp",
+            "Data": {
+              "profile": {
+                "folder": "workflow_bridge_streamId",
+                "key": "MZ1587381179084",
+                "name": "wbprofile1",
+                "type": "Workflow Bridge Profile",
+                "$Version": 1.0
+              },
+              "$Type": "dr.WfBridgeFwdData",
+              "$Version": 10.0
+            },
+            "$Version": 1.0
+          }
+        ],
+        "XYposition": {
+          "x": 330,
+          "y": 60,
+          "$Version": 1.0
+        },
+        "$Version": 2.0
+      },
+      {
+        "Name": "Analysis_Reply",
+        "ID": -5,
+        "Classname": "com.digitalroute.wfc.analysis.AnalysisRealtimeInsp",
+        "Configuration": [
+          {
+            "Type": 1,
+            "Classname": "com.digitalroute.wfc.analysis.AnalysisRealtimeInsp",
+            "Data": {
+              "sourceCode": "consume {
+    debug(input);
+}",
+              "udrTypes": [
+                {
+                  "typeName": "wfb.ConsumeCycleUDR",
+                  "$Version": 1.0
+                },
+                {
+                  "typeName": "wfb.ErrorCycleUDR",
+                  "$Version": 1.0
+                }
+              ],
+              "$Type": "dr.StuffyMapperData",
+              "$Version": 10.0
+            },
+            "$Version": 1.0
+          }
+        ],
+        "XYposition": {
+          "x": 470,
+          "y": 70,
+          "$Version": 1.0
+        },
+        "$Version": 2.0
+      },
+      {
+        "Name": "Pulse_1",
+        "ID": 33159177,
+        "Classname": "com.digitalroute.mz.pulse.agent.PulseCollectorAgentInspRT",
+        "Configuration": [
+          {
+            "Type": 1,
+            "Classname": "com.digitalroute.mz.pulse.agent.PulseCollectorAgentInspRT",
+            "Data": {
+              "center": 1.0,
+              "data": "",
+              "dataEntered": true,
+              "dataRandomData": false,
+              "dataRandomOrderSeq": false,
+              "dataRangeEnd": 10,
+              "dataRangeStart": 0,
+              "dataSequentialOrder": true,
+              "dataSequentialRange": false,
+              "dataSize": 1,
+              "dataUnit": "Bytes",
+              "intervalFixed": 250,
+              "intervalType": "Fixed",
+              "poissonRate": 1.0,
+              "rate": 1,
+              "start": 1,
+              "stop": 10,
+              "unit": "MILLISECONDS",
+              "width": 1.0,
+              "$Type": "dr.PulseData",
+              "$Version": 10.0
+            },
+            "$Version": 1.0
+          }
+        ],
+        "XYposition": {
+          "x": 50,
+          "y": 70,
+          "$Version": 1.0
+        },
+        "$Version": 2.0
+      }
+    ],
+    "persistentData": {
+      "$Version": 10.0
+    },
+    "routes": [
+      {
+        "destinationId": -4,
+        "id": -3,
+        "name": "r_2",
+        "realtimeMode": "Not set",
+        "routeStyle": "Bezier",
+        "sourceId": -3,
+        "stroke": [
+          {
+            "x": 237,
+            "y": 43,
+            "$Version": 1.0
+          },
+          {
+            "x": 259,
+            "y": 32,
+            "$Version": 1.0
+          },
+          {
+            "x": 282,
+            "y": 32,
+            "$Version": 1.0
+          },
+          {
+            "x": 304,
+            "y": 43,
+            "$Version": 1.0
+          }
+        ],
+        "$Version": 1.0
+      },
+      {
+        "destinationId": -5,
+        "id": -4,
+        "name": "r_3",
+        "realtimeMode": "Not set",
+        "routeStyle": "Bezier",
+        "sourceId": -4,
+        "stroke": [
+          {
+            "x": 359,
+            "y": 42,
+            "$Version": 1.0
+          },
+          {
+            "x": 388,
+            "y": 32,
+            "$Version": 1.0
+          },
+          {
+            "x": 416,
+            "y": 34,
+            "$Version": 1.0
+          },
+          {
+            "x": 442,
+            "y": 48,
+            "$Version": 1.0
+          }
+        ],
+        "$Version": 1.0
+      },
+      {
+        "destinationId": -3,
+        "id": -5,
+        "name": "r_4",
+        "realtimeMode": "Not set",
+        "routeStyle": "Bezier",
+        "sourceId": 33159177,
+        "stroke": [
+          {
+            "x": 77,
+            "y": 45,
+            "$Version": 1.0
+          },
+          {
+            "x": 109,
+            "y": 22,
+            "$Version": 1.0
+          },
+          {
+            "x": 146,
+            "y": 15,
+            "$Version": 1.0
+          },
+          {
+            "x": 184,
+            "y": 38,
+            "$Version": 1.0
+          }
+        ],
+        "$Version": 1.0
+      }
+    ],
+    "services": [],
+    "templateValid": true,
+    "threadData": {
+      "countInterval": 1,
+      "queueSize": 1000,
+      "queueStrategy": "Blocking queue",
+      "queueWorkerStrategy": "RoundRobin",
+      "standalone": false,
+      "threads": 8,
+      "$Version": 10.0
+    },
+    "wfExecutionConfig": {
+      "debugType": "Event",
+      "executionSettings": {
+        "distributionType": "Round Robin",
+        "enabled": false,
+        "executionGroups": [],
+        "$Version": 1.0
+      },
+      "noOfFilesToKeep": 0,
+      "$Version": 10.0
+    },
+    "wfIdCounter": 1,
+    "$Type": "dr.WorkflowRealtimeData",
+    "$Version": 1.0
+  },
+  "documentation": "",
+  "Is Dry Run": false,
+  "$Type": "dr.Configuration",
+  "$Version": 10.1
+}

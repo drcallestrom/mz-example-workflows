@@ -1,0 +1,39 @@
+metadata:
+  name: "tcpcollect"
+apiVersion: "mz.digitalroute.com/v1alpha1"
+kind: "ECDeployment"
+spec:
+  ecGroups: "tcpcollect"
+  jvmArgs:
+  - "Xms512m"
+  - "Xmx512m"
+  exportJmxMetrics: false
+  resources:
+    requests:
+      memory: "320.0Mi"
+      cpu: "500m"
+    limits:
+      memory: "640.0Mi"
+      cpu: "1000m"
+  disabled: true
+  workflows:
+  - template: "tcp.collect"
+    instances:
+    - name: "collect3211"
+      useExtRef: "{}"
+      parameters: "{\"TcpPort\":3211}"
+    packageVersion: "1.0"
+    packageName: "TcpCollect"
+  services:
+  - spec:
+      externalTrafficPolicy: "Cluster"
+      type: "NodePort"
+      ports:
+      - protocol: "TCP"
+        port: 3211
+        name: "port-0"
+        targetPort: 3211
+  manualUpgrade: false
+  ports:
+  - containerPort: 3211
+

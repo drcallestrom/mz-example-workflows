@@ -1,0 +1,92 @@
+{
+  "Key": "MZ1587381179084",
+  "Name": "wbprofile1",
+  "Type": "Workflow Bridge Profile",
+  "Folder": "wfb_streamId",
+  "Owner": "mzadmin",
+  "Is Valid": true,
+  "Access Groups -read -write -execute": [
+    "Administrator",
+    "Administrator",
+    "Administrator"
+  ],
+  "Data": {
+    "Reply state": false,
+    "Transport UDRs": [
+      {
+        "typeName": "PulseUDR",
+        "$Version": 1.0
+      }
+    ],
+    "Response timeout": 60,
+    "Bulk size": 0,
+    "Bulk timeout": 0,
+    "Force serialization": true,
+    "Number of Collectors": 3,
+    "properties": "# If needed for optimizing the performance, properties controlling the Workflow Bridge 
+# can be customized here. If the properties are commented out, default values are used.
+
+# Specifies the high water mark of the write buffer. If the number of bytes queued in the write buffer exceeds this value, the sender cannot send more data.
+writeBufferHighWaterMark 65536
+
+# Specifies the low water mark of the write buffer.  If the number of bytes queued in the write buffer exceeds the high water mark 
+# and then drops below the low water mark, sender can start to send data again.
+writeBufferLowWaterMark 32768
+
+# Specifies the size in bytes of the socket's data receive buffer.
+receiveBufferSize 1048576
+
+# Specifies the size in bytes of the socket's data send buffer.
+sendBufferSize 1048576
+
+# Set this property to \"true\" to keep the connection alive by sending probes across the network.
+keepAlive true
+
+# Set this property to \"true\" to disable Nagle's algorithm for this connection.
+tcpNoDelay true
+
+# Set this property to \"true\" to allow other sockets to bind() to this port, unless there is an active listening socket bound to the port already.
+reuseAddress true
+
+# When an event arrives to the collector, the delivery will, by default, be made on a different thread than the one the message arrived on. 
+# This gives the best overall throughput and scalability, especially on multi-core machines. However, it also introduces some extra latency due to the extra context switch required. 
+# If you want the lowest latency, and can accept the possible reduction in throughput, then you can set direct-deliver to \"true\".
+direct-deliver true
+
+# Specifies the queue size in number of UDRs for the Forwarding Workflow Bridge Agent. Default size is 1000. 
+# Set the queue size to 0 in order to deactivate the queue.
+forwardingQueueSize 1000
+
+# Specifies the timeout in milliseconds that are allowed to put a message on the queue of forwarding Workflow Bridge Agent.
+forwardingQueueTimeout 0
+
+# Specifies the time interval (in ms) in which the real time Forwarding Workflow Bridge agent will try to reconnect. 
+# Note that the first reconnect attempt will be made when the specified number of milliseconds have passed.
+reconnectInterval 3000
+
+# Specifies the how long time (in ms) that the forwarding queue utilization MIM value will be cached before updated.
+forwardingQueueUtilizationMimTimeout 1000
+
+# When true, a heart beat udr will be sent over the bridge every 2 minutes to make sure that the connection is still up and running
+heartBeat false
+
+",
+    "ExtRef Version": 1.0,
+    "ExtRef Map": [],
+    "Transport": "DUMMY",
+    "TransportStr": "TCP",
+    "Load Balancing Strategy": "Dynamic",
+    "Load Balancing Settings": [
+      {
+        "Key": "NumberOfShards",
+        "Value": "1024"
+      }
+    ],
+    "$Type": "dr.WorkflowBridgeProfileSettings",
+    "$Version": 14.0
+  },
+  "documentation": "",
+  "Is Dry Run": false,
+  "$Type": "dr.Configuration",
+  "$Version": 10.1
+}

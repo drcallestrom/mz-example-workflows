@@ -1,0 +1,92 @@
+{
+  "Key": "MZ1613027622276",
+  "Name": "sftp-group",
+  "Type": "Workflow Group",
+  "Folder": "Batch",
+  "Owner": "mzadmin",
+  "Is Valid": true,
+  "Access Groups -read -write -execute": [
+    "Administrator",
+    "Administrator",
+    "Administrator"
+  ],
+  "Auxiliary Data": {
+    "Entries": [
+      {
+        "Key": "Type",
+        "Value": "Batch"
+      },
+      {
+        "Key": "IsDynamic",
+        "Value": "true"
+      }
+    ],
+    "$Version": 2.0
+  },
+  "Data": {
+    "member list": [
+      {
+        "type": "Template",
+        "config": {
+          "folder": "Batch",
+          "key": "MZ1613027521522",
+          "name": "sftp-collect",
+          "type": "Workflow",
+          "$Version": 1.0
+        },
+        "prereq list": [],
+        "valid type": "Not Validated",
+        "is dynamic": true,
+        "$Version": 2.0
+      }
+    ],
+    "group sched": {
+      "Dayplans, run": [
+        {
+          "Start t. o. d.": {
+            "Hour": 0,
+            "Minute": 0,
+            "Second": 0,
+            "$Version": 1.0
+          },
+          "Stop t. o. d. ": {
+            "Hour": 23,
+            "Minute": 59,
+            "Second": 59,
+            "$Version": 1.0
+          },
+          "Interval hours": 1,
+          "Interval minutes": 0,
+          "Interval seconds": 3600,
+          "Interval milli seconds": 3600000,
+          "Shall execute ": true,
+          "Start t. o. d seconds": 0,
+          "Start t. o. d milli seconds": 0,
+          "Stop t. o. d seconds": 86399,
+          "$Type": "dr.DailyDP",
+          "$Version": 1.0
+        }
+      ],
+      "Dayplans, not run": [],
+      "$Version": 1.0
+    },
+    "max running": 0,
+    "delay": 0,
+    "primary type": "Batch",
+    "exeSetting": {
+      "distributionType": "Round Robin",
+      "enabled": false,
+      "executionGroups": [],
+      "$Version": 1.0
+    },
+    "continuous exec": false,
+    "isGroupDynamic": true,
+    "tagPerTemplate": [],
+    "$Type": "dr.GroupData",
+    "$Version": 4.0
+  },
+  "documentation": "",
+  "Is Dry Run": false,
+  "$Type": "dr.Configuration",
+  "$Version": 10.0
+}

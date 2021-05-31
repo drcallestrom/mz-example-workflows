@@ -1,0 +1,605 @@
+{
+  "Key": "MZ50FR5SPRINT9TB021270048558727",
+  "Name": "radiusExtended",
+  "Type": "Ultra Format",
+  "Folder": "radius",
+  "Owner": "mzadmin",
+  "Is Valid": true,
+  "Access Groups -read -write -execute": [
+    "Administrator",
+    "Administrator",
+    "Administrator"
+  ],
+  "Data": {
+    "Definition": "
+// -----------------------------------------------------------------------
+
+external Access_Request_Ext sequential :
+      identified_by(Code == 1),
+      dynamic_size(RecLength) {
+         int       Code:           static_size(1);
+         int       Identifier:     static_size(1);
+         int       RecLength:      static_size(2),
+                                   encode_value(udr_size);
+         bytearray Authenticator:  static_size(16);
+         //      
+         // Attributes
+         //
+         switched_set( Type ) {
+             int Type:           static_size(1);
+             int Length:         static_size(1),
+                                   encode_value(case_size);
+             case(1) {
+               ascii User_Name: dynamic_size( Length - 2 );
+             };
+             case(2) {
+               ascii User_Password: dynamic_size( Length - 2 ),
+                                   terminated_by(0);
+             };
+             case(3) {
+               int   CHAP_Iden:     static_size(1);
+               ascii CHAP_Password: static_size(16);
+             };
+             case(4) {
+               int NAS_IP_Address: static_size(4);
+             };
+             case(5) {
+               int NAS_Port: static_size(4);
+             };
+             case(6) {
+               int Service_Type: static_size(4);
+             };
+             case(7) {
+               int Framed_Protocol: static_size(4);
+             };
+             case(8) {
+               int Framed_IP_Address: static_size(4);
+             };
+             case(9) {
+               int Framed_IP_Netmask: static_size(4);
+             };
+             case(13) {
+               list<int> Framed_Copmression: static_size(4);
+             };
+             case(14) {
+               list<int> Login_IP_Host: static_size(4);
+             };
+             case(19) {
+               ascii Callback_Number: dynamic_size( Length - 2 );
+             };
+             case(24) {
+               ascii State: dynamic_size( Length - 2 );
+             };
+             case(26): include_prefix {
+               list<Vendor_Specific_Ext>            Vendor_Specific;
+             };
+             case(30) {
+               ascii Called_Station_Id: dynamic_size( Length - 2 );
+             };
+             case(31) {
+               ascii Calling_Station_Id: dynamic_size( Length - 2 );
+             };
+             case(32) {
+               ascii NAS_Identifier: dynamic_size( Length - 2 );
+             };
+             case(33) {
+               list<ascii> Proxy_State: dynamic_size( Length - 2 );
+             };
+             case(34) {
+               ascii Login_LAT_Service: dynamic_size( Length - 2 );
+             };
+             case(35) {
+               ascii Login_LAT_Node: dynamic_size( Length - 2 );
+             };
+             case(36) {
+               ascii Login_LAT_Group: static_size(32);
+             };
+             case(60) {
+               ascii CHAP_Challenge: dynamic_size( Length - 2 );
+             };
+             case(61) {
+               int NAS_Port_Type: static_size(4);
+             };
+             case(62) {
+               int Port_Limit: static_size(4);
+             };
+             case(63) {
+               ascii Login_LAT_Port: dynamic_size( Length - 2 );
+             };
+         };
+};
+
+external Access_Accept_Ext sequential :
+      identified_by(Code == 2),
+      dynamic_size(RecLength) {
+         int       Code:           static_size(1);
+         int       Identifier:     static_size(1);
+         int       RecLength:      static_size(2),
+                                   encode_value(udr_size);
+         bytearray Authenticator:  static_size(16);
+         //      
+         // Attributes
+         //
+         switched_set( Type ) {
+             int Type:           static_size(1);
+             int Length:         static_size(1),
+                                   encode_value(case_size);
+             case(6) {
+               int Service_Type: static_size(4);
+             };
+             case(7) {
+               int Framed_Protocol: static_size(4);
+             };
+             case(8) {
+               int Framed_IP_Address: static_size(4);
+             };
+             case(9) {
+               int Framed_IP_Netmask: static_size(4);
+             };
+             case(10) {
+               int Framed_Routing: static_size(4);
+             };
+             case(11) {
+               list<ascii> Filter_Id: dynamic_size( Length - 2 );
+             };
+             case(12) {
+               int Framed_MTU: static_size(4);
+             };
+             case(13) {
+               list<int> Framed_Copmression: static_size(4);
+             };
+             case(14) {
+               list<int> Login_IP_Host: static_size(4);
+             };
+             case(15) {
+               int Login_Service: static_size(4);
+             };
+             case(16) {
+               int Login_TCP_Port: static_size(4);
+             };
+             case(18) {
+               list<ascii> Reply_Message: dynamic_size( Length - 2 );
+             };
+             case(19) {
+               ascii Callback_Number: dynamic_size( Length - 2 );
+             };
+             case(20) {
+               ascii Callback_Id: dynamic_size( Length - 2 );
+             };
+             case(22) {
+               list<ascii> Framed_Route: dynamic_size( Length - 2 );
+             };
+             case(23) {
+               int Framed_IPX_Network: static_size(4);
+             };
+             case(24) {
+               ascii State: dynamic_size( Length - 2 );
+             };
+             case(25) {
+               list<ascii> Class: dynamic_size( Length - 2 );
+             };
+             case(26): include_prefix {
+               list<Vendor_Specific_Ext> Vendor_Specific;
+             };
+             case(27) {
+               int Session_Timeout: static_size(4);
+             };
+             case(28) {
+               int Idle_Timeout: static_size(4);
+             };
+             case(29) {
+               int Termination_Action: static_size(4);
+             };
+             case(33) {
+               list<ascii> Proxy_State: dynamic_size( Length - 2 );
+             };
+             case(34) {
+               ascii Login_LAT_Service: dynamic_size( Length - 2 );
+             };
+             case(35) {
+               ascii Login_LAT_Node: dynamic_size( Length - 2 );
+             };
+             case(36) {
+               ascii Login_LAT_Group: static_size(32);
+             };
+             case(37) {
+               int Framed_AppleTalk_Link: static_size(4);
+             };
+             case(38) {
+               list<int> Framed_AppleTalk_Network: static_size(4);
+             };
+             case(39) {
+               int Framed_AppleTalk_Zone: static_size(4);
+             };
+             case(62) {
+               int Port_Limit: static_size(4);
+             };
+             case(63) {
+               ascii Login_LAT_Port: dynamic_size( Length - 2 );
+             };
+         };
+};
+
+external Access_Reject_Ext sequential :
+      identified_by(Code == 3),
+      dynamic_size(RecLength) {
+         int       Code:           static_size(1);
+         int       Identifier:     static_size(1);
+         int       RecLength:         static_size(2),
+                                   encode_value(udr_size);
+         bytearray Authenticator:  static_size(16);
+         //      
+         // Attributes
+         //
+         switched_set( Type ) {
+             int Type:           static_size(1);
+             int Length:         static_size(1),
+                                 encode_value(case_size);
+             case(18) {
+               list<ascii> Reply_Message: dynamic_size( Length - 2 );
+             };
+             case(33) {
+               list<ascii> Proxy_State: dynamic_size( Length - 2 );
+             };
+         };
+};
+
+external Accounting_Request_Ext sequential :
+      identified_by(Code == 4),
+      dynamic_size(RecLength) {
+         int       Code:           static_size(1);
+         int       Identifier:     static_size(1);
+         int       RecLength:      static_size(2),
+                                   encode_value(udr_size);
+         bytearray Authenticator:  static_size(16);
+         //      
+         // Attributes
+         //
+         switched_set( Type ) {
+             int Type:           static_size(1);
+             int Length:         static_size(1),
+                                   encode_value(case_size);
+             case(1) {
+               ascii User_Name: dynamic_size( Length - 2 );
+             };
+             case(2) {
+               bytearray dontknow_MAGNUS_ADDED_THIS : dynamic_size(Length-2);
+             }
+             case(4) {
+               int NAS_IP_Address: static_size(4);
+             };
+             case(5) {
+               int NAS_Port: static_size(4);
+             };
+             case(6) {
+               int Service_Type: static_size(4);
+             };
+             case(7) {
+               int Framed_Protocol: static_size(4);
+             };
+             case(8) {
+               int Framed_IP_Address: static_size(4);
+             };
+             case(9) {
+               int Framed_IP_Netmask: static_size(4);
+             };
+             case(10) {
+               int Framed_Routing: static_size(4);
+             };
+             case(11) {
+               list<ascii> Filter_Id: dynamic_size( Length - 2 );
+             };
+             case(12) {
+               int Framed_MTU: static_size(4);
+             };
+             case(13) {
+               list<int> Framed_Copmression: static_size(4);
+             };
+             case(14) {
+               list<int> Login_IP_Host: static_size(4);
+             };
+             case(15) {
+               int Login_Service: static_size(4);
+             };
+             case(16) {
+               int Login_TCP_Port: static_size(4);
+             };
+             case(19) {
+               ascii Callback_Number: dynamic_size( Length - 2 );
+             };
+             case(20) {
+               ascii Callback_Id: dynamic_size( Length - 2 );
+             };
+             case(22) {
+               list<ascii> Framed_Route: dynamic_size( Length - 2 );
+             };
+             case(23) {
+               int Framed_IPX_Network: static_size(4);
+             };
+             case(25) {
+               list<ascii> Class: dynamic_size( Length - 2 );
+             };
+             case(26): include_prefix {
+               list<Vendor_Specific_Ext> Vendor_Specific;
+             };
+             case(27) {
+               int Session_Timeout: static_size(4);
+             };
+             case(28) {
+               int Idle_Timeout: static_size(4);
+             };
+             case(29) {
+               int Termination_Action: static_size(4);
+             };
+             case(30) {
+               ascii Called_Station_Id: dynamic_size( Length - 2 );
+             };
+             case(31) {
+               ascii Calling_Station_Id: dynamic_size( Length - 2 );
+             };
+             case(32) {
+               ascii NAS_Identifier: dynamic_size( Length - 2 );
+             };
+             case(33) {
+               list<ascii> Proxy_State: dynamic_size( Length - 2 );
+             };
+             case(34) {
+               ascii Login_LAT_Service: dynamic_size( Length - 2 );
+             };
+             case(35) {
+               ascii Login_LAT_Node: dynamic_size( Length - 2 );
+             };
+             case(36) {
+               ascii Login_LAT_Group: static_size(32);
+             };
+             case(37) {
+               int Framed_AppleTalk_Link: static_size(4);
+             };
+             case(38) {
+               list<int> Framed_AppleTalk_Network: static_size(4);
+             };
+             case(39) {
+               int Framed_AppleTalk_Zone: static_size(4);
+             };
+             case(40) {
+               int Acct_Status_Type: static_size(4);
+             };
+             case(41) {
+               int Acct_Delay_Time: static_size(4);
+             };
+             case(42) {
+               int Acct_Input_Octets: static_size(4);
+             };
+             case(43) {
+               int Acct_Output_Octets: static_size(4);
+             };
+             case(44) {
+               ascii Acct_Session_Id: dynamic_size( Length - 2 );
+             };
+             case(45) {
+               int Acct_Authentic: static_size(4);
+             };
+             case(46) {
+               int Acct_Session_Time: static_size(4);
+             };
+             case(47) {
+               int Acct_Input_Packets: static_size(4);
+             };
+             case(48) {
+               int Acct_Output_Packets: static_size(4);
+             };
+             case(49) {
+               int Acct_Termination_Cause: static_size(4);
+             };
+             case(50) {
+               list<ascii> Acct_Multi_Session_Id: dynamic_size( Length - 2 );
+             };
+             case(51) {
+               list<int> Acct_Link_Count: static_size(4);
+             };
+             case(61) {
+               int NAS_Port_Type: static_size(4);
+             };
+             case(62) {
+               int Port_Limit: static_size(4);
+             };
+             case(63) {
+               ascii Login_LAT_Port: dynamic_size( Length - 2 );
+             };
+         };
+};
+
+external Accounting_Response_Ext sequential :
+      identified_by(Code == 5),
+      dynamic_size(RecLength) {
+         int       Code:           static_size(1);
+         int       Identifier:     static_size(1);
+         int       RecLength:      static_size(2),
+                                   encode_value(udr_size);
+         bytearray Authenticator:  static_size(16);
+         //      
+         // No attributes should be found in a Accounting_Response
+         // according to RFC 2866.
+         //
+         switched_set( Type ) {
+             int Type:           static_size(1);
+             int Length:         static_size(1),
+                                   encode_value(case_size);
+             case(5) {
+               int NAS_Port: static_size(4);
+             };
+         };
+};
+
+external Access_Challenge_Ext sequential :
+      identified_by(Code == 11),
+      dynamic_size(RecLength) {
+         int       Code:           static_size(1);
+         int       Identifier:     static_size(1);
+         int       RecLength:      static_size(2),
+                                   encode_value(udr_size);
+         bytearray Authenticator:  static_size(16);
+         //      
+         // Attributes
+         //
+         switched_set( Type ) {
+             int Type:           static_size(1);
+             int Length:         static_size(1),
+                                   encode_value(case_size);
+             case(18) {
+               list<ascii> Reply_Message: dynamic_size( Length - 2 );
+             };
+             case(24) {
+               ascii State: dynamic_size( Length - 2 );
+             };
+             case(26): include_prefix {
+               list<Vendor_Specific_Ext>            Vendor_Specific;
+             };
+             case(27) {
+               int Session_Timeout: static_size(4);
+             };
+             case(28) {
+               int Idle_Timeout: static_size(4);
+             };
+             case(33) {
+               list<ascii> Proxy_State: dynamic_size( Length - 2 );
+             };
+         };
+};
+
+//------------------------------------------------------------------------
+//
+// SSG specific definitions.
+//
+external Vendor_Specific_Ext sequential : 
+      identified_by((Type == 26) && (VendorID == 9)),
+      dynamic_size(Length) {
+           int Type:           static_size(1);
+           int Length:         static_size(1),
+                               encode_value(udr_size);
+           int VendorID:       static_size(4); 
+
+           int SubAttrID:      static_size(1);
+           int VendorLength:   static_size(1),
+                               encode_value(udr_size - 9);
+
+           int InfoCode:       static_size(1);
+           ascii Data:         dynamic_size(udr_size - 9);
+};
+
+internal Vendor_Specific_Int {
+      int     Type;
+      int     Length;
+      int     VendorID;
+      int     SubAttrID;
+      int     VendorLength;
+      int     InfoCode;
+      string  Data;
+};
+
+in_map Access_Request_Map : external(Access_Request_Ext),
+                            target_internal(Access_Request_Int) {
+      automatic {
+          Vendor_Specific_Ext: internal( Vendor_Specific_Int ),
+                        target_internal( Vendor_Specific_TI1 );
+      };
+};
+
+
+internal MZ_added {
+    ipaddress MZ_framedIP;
+};
+
+in_map Accounting_Request_Map : external(Accounting_Request_Ext), internal( MZ_added ),
+                            target_internal(Accounting_Request_Int) { automatic{}; };
+
+out_map Acc_Req_Map : external(Accounting_Request_Ext), 
+                            internal(Accounting_Request_Int) {automatic;};
+
+
+out_map Access_Req_Map : external(Access_Request_Ext), 
+                            internal(Access_Request_Int) {automatic;};
+
+
+/*
+in_map Accounting_Request_Map : external(Accounting_Request_Ext),
+                            target_internal(Accounting_Request_Int) {
+      automatic {
+          Vendor_Specific_Ext: internal( Vendor_Specific_Int ),
+                        target_internal( Vendor_Specific_TI2 );
+       };
+};
+*/
+
+
+in_map Access_Accept_InMap: external(Access_Accept_Ext),
+           target_internal( Access_Accept_Int ) {
+      automatic {
+          Vendor_Specific_Ext: internal( Vendor_Specific_Int );
+      };
+};
+out_map Access_Accept_Map : external(Access_Accept_Ext), 
+                            internal(Access_Accept_Int) {
+      automatic;
+};
+
+in_map Access_Reject_InMap: external(Access_Reject_Ext),
+           target_internal( Access_Reject_Int ) {
+      automatic {
+          Vendor_Specific_Ext: internal( Vendor_Specific_Int );
+      };
+};
+out_map Access_Reject_Map : external(Access_Reject_Ext), 
+                            internal(Access_Reject_Int) {
+      automatic;
+};
+
+in_map Accounting_Response_InMap: external(Accounting_Response_Ext),
+           target_internal( Accounting_Response_Int ) {
+      automatic {
+          Vendor_Specific_Ext: internal( Vendor_Specific_Int );
+      };
+};
+out_map Accounting_Response_Map : external(Accounting_Response_Ext), 
+                                  internal(Accounting_Response_Int) {
+      automatic;
+};
+
+in_map Access_Challenge_InMap: external(Access_Challenge_Ext),
+           target_internal( Access_Challenge_Int ) {
+      automatic {
+          Vendor_Specific_Ext: internal( Vendor_Specific_Int );
+      };
+};
+out_map Access_Challenge_Map : external(Access_Challenge_Ext), 
+                               internal(Access_Challenge_Int) {
+      automatic;
+};
+
+//
+// Incoming requests
+//
+decoder Request_Dec: in_map(Access_Request_Map),
+                     in_map(Accounting_Request_Map);
+
+//
+// Outgoing replies 
+//
+encoder Response_Enc: out_map(Access_Accept_Map),
+                      out_map(Access_Reject_Map),
+                      out_map(Accounting_Response_Map),
+                      out_map(Access_Challenge_Map);
+
+encoder RequestOut_Dec: out_map(Acc_Req_Map),
+                        out_map(Access_Req_Map);
+
+
+",
+    "$Type": "dr.UltraFormatConfig",
+    "$Version": 2.0
+  },
+  "documentation": "",
+  "Is Dry Run": false,
+  "$Type": "dr.Configuration",
+  "$Version": 10.0
+}

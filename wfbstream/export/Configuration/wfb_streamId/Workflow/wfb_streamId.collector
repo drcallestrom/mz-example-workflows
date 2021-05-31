@@ -1,0 +1,239 @@
+{
+  "Key": "MZ1587377881678",
+  "Name": "collector",
+  "Type": "Workflow",
+  "Folder": "wfb_streamId",
+  "Owner": "mzadmin",
+  "Is Valid": true,
+  "Access Groups -read -write -execute": [
+    "Administrator",
+    "Administrator",
+    "Administrator"
+  ],
+  "Auxiliary Data": {
+    "Entries": [
+      {
+        "Key": "Type",
+        "Value": "Realtime"
+      },
+      {
+        "Key": "Standalone",
+        "Value": "false"
+      },
+      {
+        "Key": "Count",
+        "Value": "1"
+      },
+      {
+        "Key": "Autostart",
+        "Value": "false"
+      },
+      {
+        "Key": "DynamicConfig",
+        "Value": "true"
+      }
+    ],
+    "$Version": 2.0
+  },
+  "Data": {
+    "dynamicInstances": true,
+    "errorMimNames": [],
+    "fieldTypes": [
+      {
+        "exportAlias": "StreamID",
+        "exportDescription": "Stream ID to connect to upstream workflow",
+        "fieldInstanceType": "Instance",
+        "fieldName": "streamId",
+        "nodeId": -2,
+        "nodeName": "Workflow_Bridge",
+        "section": "WFB_Collector",
+        "$Version": 1.0
+      }
+    ],
+    "groupTags": [],
+    "instances": [
+      {
+        "cellValues": [
+          {
+            "type": "DEFAULT",
+            "$Version": 1.0
+          }
+        ],
+        "instanceId": 1,
+        "instanceName": "workflow_1",
+        "validType": "Not Validated",
+        "$Version": 1.0
+      }
+    ],
+    "nodes": [
+      {
+        "Name": "Workflow_Bridge",
+        "ID": -2,
+        "Classname": "com.digitalroute.workflowbridge.rt.coll.WfbRTCollInsp",
+        "Configuration": [
+          {
+            "Type": 1,
+            "Classname": "com.digitalroute.workflowbridge.rt.coll.WfbRTCollInsp",
+            "Data": {
+              "loadID": 1,
+              "port": 4444,
+              "profile": {
+                "folder": "workflow_bridge_streamId",
+                "key": "MZ1587381179084",
+                "name": "wbprofile1",
+                "type": "Workflow Bridge Profile",
+                "$Version": 1.0
+              },
+              "$Type": "dr.WfBridgeCollData",
+              "$Version": 10.0
+            },
+            "$Version": 1.0
+          }
+        ],
+        "XYposition": {
+          "x": 80,
+          "y": 110,
+          "$Version": 1.0
+        },
+        "$Version": 2.0
+      },
+      {
+        "Name": "Analysis",
+        "ID": -3,
+        "Classname": "com.digitalroute.wfc.analysis.AnalysisRealtimeInsp",
+        "Configuration": [
+          {
+            "Type": 1,
+            "Classname": "com.digitalroute.wfc.analysis.AnalysisRealtimeInsp",
+            "Data": {
+              "sourceCode": "consume {
+    debug(input);
+    string wfName = (string) mimGet(\"Workflow\", \"Workflow Name\");
+    if (instanceOf(input, WorkflowStateUDR )) {
+        udrRoute((WorkflowStateUDR) input, \"reply\");        
+    } else if (instanceOf(input, ConsumeCycleUDR)) {
+        udrRoute((ConsumeCycleUDR) input, \"reply\");
+    }
+}",
+              "udrTypes": [
+                {
+                  "typeName": "wfb.ConsumeCycleUDR",
+                  "$Version": 1.0
+                },
+                {
+                  "typeName": "wfb.WorkflowStateUDR",
+                  "$Version": 1.0
+                }
+              ],
+              "$Type": "dr.StuffyMapperData",
+              "$Version": 10.0
+            },
+            "$Version": 1.0
+          }
+        ],
+        "XYposition": {
+          "x": 260,
+          "y": 110,
+          "$Version": 1.0
+        },
+        "$Version": 2.0
+      }
+    ],
+    "persistentData": {
+      "$Version": 10.0
+    },
+    "routes": [
+      {
+        "destinationId": -3,
+        "id": -2,
+        "name": "analysis",
+        "realtimeMode": "Not set",
+        "routeStyle": "Bezier",
+        "sourceId": -2,
+        "stroke": [
+          {
+            "x": 109,
+            "y": 88,
+            "$Version": 1.0
+          },
+          {
+            "x": 147,
+            "y": 73,
+            "$Version": 1.0
+          },
+          {
+            "x": 196,
+            "y": 72,
+            "$Version": 1.0
+          },
+          {
+            "x": 232,
+            "y": 87,
+            "$Version": 1.0
+          }
+        ],
+        "$Version": 1.0
+      },
+      {
+        "destinationId": -2,
+        "id": -4,
+        "name": "reply",
+        "realtimeMode": "Not set",
+        "routeStyle": "Bezier",
+        "sourceId": -3,
+        "stroke": [
+          {
+            "x": 234,
+            "y": 113,
+            "$Version": 1.0
+          },
+          {
+            "x": 192,
+            "y": 128,
+            "$Version": 1.0
+          },
+          {
+            "x": 149,
+            "y": 128,
+            "$Version": 1.0
+          },
+          {
+            "x": 107,
+            "y": 113,
+            "$Version": 1.0
+          }
+        ],
+        "$Version": 1.0
+      }
+    ],
+    "services": [],
+    "templateValid": true,
+    "threadData": {
+      "countInterval": 1,
+      "queueSize": 1000,
+      "queueStrategy": "Blocking queue",
+      "queueWorkerStrategy": "RoundRobin",
+      "standalone": false,
+      "threads": 8,
+      "$Version": 10.0
+    },
+    "wfExecutionConfig": {
+      "debugType": "Event",
+      "executionSettings": {
+        "distributionType": "Round Robin",
+        "enabled": false,
+        "executionGroups": [],
+        "$Version": 1.0
+      },
+      "noOfFilesToKeep": 0,
+      "$Version": 10.0
+    },
+    "wfIdCounter": 1,
+    "$Type": "dr.WorkflowRealtimeData",
+    "$Version": 1.0
+  },
+  "documentation": "",
+  "Is Dry Run": false,
+  "$Type": "dr.Configuration",
+  "$Version": 10.1
+}

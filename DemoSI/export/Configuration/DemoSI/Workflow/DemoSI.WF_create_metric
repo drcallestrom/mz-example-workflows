@@ -1,0 +1,380 @@
+{
+  "Key": "MZ1614263245320",
+  "Name": "WF_create_metric",
+  "Type": "Workflow",
+  "Folder": "DemoSI",
+  "Owner": "mzadmin",
+  "Is Valid": true,
+  "Access Groups -read -write -execute": [
+    "Administrator",
+    "Administrator",
+    "Administrator"
+  ],
+  "Auxiliary Data": {
+    "Entries": [
+      {
+        "Key": "Type",
+        "Value": "Realtime"
+      },
+      {
+        "Key": "Standalone",
+        "Value": "false"
+      },
+      {
+        "Key": "Count",
+        "Value": "1"
+      },
+      {
+        "Key": "Autostart",
+        "Value": "false"
+      },
+      {
+        "Key": "DynamicConfig",
+        "Value": "false"
+      }
+    ],
+    "$Version": 2.0
+  },
+  "Data": {
+    "dynamicInstances": false,
+    "errorMimNames": [],
+    "fieldTypes": [],
+    "groupTags": [],
+    "instances": [
+      {
+        "cellValues": [],
+        "instanceId": 1,
+        "instanceName": "workflow_1",
+        "validType": "Valid",
+        "$Version": 1.0
+      }
+    ],
+    "nodes": [
+      {
+        "Name": "PulsePerSecond",
+        "ID": 33159177,
+        "Classname": "com.digitalroute.mz.pulse.agent.PulseCollectorAgentInspRT",
+        "Configuration": [
+          {
+            "Type": 1,
+            "Classname": "com.digitalroute.mz.pulse.agent.PulseCollectorAgentInspRT",
+            "Data": {
+              "center": 1.0,
+              "data": "",
+              "dataEntered": false,
+              "dataRandomData": true,
+              "dataRandomOrderSeq": false,
+              "dataRangeEnd": 10,
+              "dataRangeStart": 0,
+              "dataSequentialOrder": true,
+              "dataSequentialRange": false,
+              "dataSize": 1,
+              "dataUnit": "Bytes",
+              "intervalFixed": 1,
+              "intervalType": "Fixed",
+              "poissonRate": 1.0,
+              "rate": 1,
+              "start": 1,
+              "stop": 10,
+              "unit": "SECONDS",
+              "width": 1.0,
+              "$Type": "dr.PulseData",
+              "$Version": 10.0
+            },
+            "$Version": 1.0
+          }
+        ],
+        "XYposition": {
+          "x": 50,
+          "y": 50,
+          "$Version": 1.0
+        },
+        "$Version": 2.0
+      },
+      {
+        "Name": "GeneratePrometheusUDR",
+        "ID": -540133671,
+        "Classname": "com.digitalroute.wfc.analysis.AnalysisRealtimeInsp",
+        "Configuration": [
+          {
+            "Type": 1,
+            "Classname": "com.digitalroute.wfc.analysis.AnalysisRealtimeInsp",
+            "Data": {
+              "sourceCode": "consume {
+    
+   PrometheusUDR udr = udrCreate(PrometheusUDR);
+   map<string,string> f = mapCreate(string,string);
+
+   mapSet(f, \"NE_Type\", input.NEtype);
+   mapSet(f, \"Originating_NE\", input.NEname);
+
+   udr.Labels = f;
+   udr.MetricType=\"GAUGE\";
+   udr.Name=\"NE_Delay\";
+   udr.Value=input.delay;  
+   debug(udr); 
+   udrRoute(udr);
+
+}",
+              "udrTypes": [
+                {
+                  "TypeName": "DemoSI.UFL_data.statsUDR",
+                  "FormatName": "DemoSI.UFL_data",
+                  "$Type": "dr.UltraClientInfo",
+                  "$Version": 1.0
+                }
+              ],
+              "$Type": "dr.StuffyMapperData",
+              "$Version": 10.0
+            },
+            "$Version": 1.0
+          }
+        ],
+        "XYposition": {
+          "x": 170,
+          "y": 210,
+          "$Version": 1.0
+        },
+        "$Version": 2.0
+      },
+      {
+        "Name": "prometheus_1",
+        "ID": 1930702889,
+        "Classname": "com.digitalroute.mz.prometheus.agent.PrometheusAgentInspRT",
+        "Configuration": [
+          {
+            "Type": 1,
+            "Classname": "com.digitalroute.mz.prometheus.agent.PrometheusAgentInspRT",
+            "Data": {
+              "$Type": "dr.PrometheusData",
+              "$Version": 1.0
+            },
+            "$Version": 1.0
+          }
+        ],
+        "XYposition": {
+          "x": 310,
+          "y": 220,
+          "$Version": 1.0
+        },
+        "$Version": 2.0
+      },
+      {
+        "Name": "Analysis_2",
+        "ID": 186233777,
+        "Classname": "com.digitalroute.wfc.analysis.AnalysisRealtimeInsp",
+        "Configuration": [
+          {
+            "Type": 1,
+            "Classname": "com.digitalroute.wfc.analysis.AnalysisRealtimeInsp",
+            "Data": {
+              "sourceCode": "consume {
+   debug(\"Sent SI UDR...\");
+}",
+              "udrTypes": [
+                {
+                  "typeName": "bytearray",
+                  "$Version": 1.0
+                },
+                {
+                  "typeName": "DRUDR",
+                  "$Version": 1.0
+                }
+              ],
+              "$Type": "dr.StuffyMapperData",
+              "$Version": 10.0
+            },
+            "$Version": 1.0
+          }
+        ],
+        "XYposition": {
+          "x": 410,
+          "y": 220,
+          "$Version": 1.0
+        },
+        "$Version": 2.0
+      },
+      {
+        "Name": "GenerateInputData",
+        "ID": -106481934,
+        "Classname": "com.digitalroute.wfc.analysis.AnalysisRealtimeInsp",
+        "Configuration": [
+          {
+            "Type": 1,
+            "Classname": "com.digitalroute.wfc.analysis.AnalysisRealtimeInsp",
+            "Data": {
+              "sourceCode": "consume {
+
+   int i = randomInt(4);
+   DemoSI.UFL_data.statsUDR myUDR = udrCreate(DemoSI.UFL_data.statsUDR);
+   myUDR.delay = randomInt(20);
+   
+   switch( i ) {    
+       case ( 0 ) { 
+           myUDR.NEname = \"South\";
+           myUDR.NEtype = \"NE-type-A\";
+       } 
+       case ( 1 ) { 
+           myUDR.NEname = \"North\";
+           myUDR.NEtype = \"NE-type-A\";
+       } 
+       case ( 2 ) { 
+           myUDR.NEname = \"East\";
+           myUDR.NEtype = \"NE-type-A\";
+       } 
+       case ( 3 ) { 
+           myUDR.NEname = \"West\";
+           myUDR.NEtype = \"NE-type-A\";
+       }
+   }
+
+   debug(myUDR);
+   udrRoute(myUDR);
+
+}",
+              "$Type": "dr.StuffyMapperData",
+              "$Version": 10.0
+            },
+            "$Version": 1.0
+          }
+        ],
+        "XYposition": {
+          "x": 170,
+          "y": 50,
+          "$Version": 1.0
+        },
+        "$Version": 2.0
+      }
+    ],
+    "persistentData": {
+      "$Version": 10.0
+    },
+    "routes": [
+      {
+        "destinationId": 1930702889,
+        "id": -3,
+        "name": "PrometheusUDR",
+        "realtimeMode": "Not set",
+        "routeStyle": "Bezier",
+        "sourceId": -540133671,
+        "stroke": [
+          {
+            "x": 197,
+            "y": 189,
+            "$Version": 1.0
+          },
+          {
+            "x": 232,
+            "y": 175,
+            "$Version": 1.0
+          },
+          {
+            "x": 255,
+            "y": 174,
+            "$Version": 1.0
+          },
+          {
+            "x": 284,
+            "y": 195,
+            "$Version": 1.0
+          }
+        ],
+        "$Version": 1.0
+      },
+      {
+        "destinationId": 186233777,
+        "id": -4,
+        "name": "r_3",
+        "realtimeMode": "Not set",
+        "routeStyle": "Straight",
+        "sourceId": 1930702889,
+        "stroke": [
+          {
+            "x": 337,
+            "y": 213,
+            "$Version": 1.0
+          },
+          {
+            "x": 384,
+            "y": 213,
+            "$Version": 1.0
+          }
+        ],
+        "$Version": 1.0
+      },
+      {
+        "destinationId": -106481934,
+        "id": -5,
+        "name": "pulse",
+        "realtimeMode": "Not set",
+        "routeStyle": "Straight",
+        "sourceId": 33159177,
+        "stroke": [
+          {
+            "x": 77,
+            "y": 43,
+            "$Version": 1.0
+          },
+          {
+            "x": 144,
+            "y": 43,
+            "$Version": 1.0
+          }
+        ],
+        "$Version": 1.0
+      },
+      {
+        "destinationId": -540133671,
+        "id": -7,
+        "name": "data",
+        "realtimeMode": "Not set",
+        "routeStyle": "Straight",
+        "sourceId": -106481934,
+        "stroke": [
+          {
+            "x": 170,
+            "y": 70,
+            "$Version": 1.0
+          },
+          {
+            "x": 170,
+            "y": 177,
+            "$Version": 1.0
+          }
+        ],
+        "$Version": 1.0
+      }
+    ],
+    "services": [],
+    "templateValid": true,
+    "threadData": {
+      "countInterval": 1,
+      "queueSize": 1000,
+      "queueStrategy": "Blocking queue",
+      "queueWorkerStrategy": "RoundRobin",
+      "standalone": false,
+      "threads": 8,
+      "$Version": 10.0
+    },
+    "wfExecutionConfig": {
+      "debugType": "Event",
+      "executionSettings": {
+        "distributionType": "Round Robin",
+        "enabled": true,
+        "executionGroups": [
+          "ecd-test-si"
+        ],
+        "$Version": 1.0
+      },
+      "noOfFilesToKeep": 0,
+      "$Version": 10.0
+    },
+    "wfIdCounter": 1,
+    "$Type": "dr.WorkflowRealtimeData",
+    "$Version": 1.0
+  },
+  "documentation": "",
+  "Is Dry Run": false,
+  "$Type": "dr.Configuration",
+  "$Version": 10.1
+}

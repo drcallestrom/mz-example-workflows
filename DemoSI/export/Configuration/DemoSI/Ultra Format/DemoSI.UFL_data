@@ -1,0 +1,27 @@
+{
+  "Key": "MZ1614263115583",
+  "Name": "UFL_data",
+  "Type": "Ultra Format",
+  "Folder": "DemoSI",
+  "Owner": "mzadmin",
+  "Is Valid": true,
+  "Access Groups -read -write -execute": [
+    "Administrator",
+    "Administrator",
+    "Administrator"
+  ],
+  "Data": {
+    "Definition": "internal statsUDR {
+  string NEname;
+  string NEtype;
+  int delay;  
+    
+};",
+    "$Type": "dr.UltraFormatConfig",
+    "$Version": 2.0
+  },
+  "documentation": "",
+  "Is Dry Run": false,
+  "$Type": "dr.Configuration",
+  "$Version": 10.1
+}

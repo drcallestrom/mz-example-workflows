@@ -1,0 +1,206 @@
+{
+  "Key": "MZ1612793459152",
+  "Name": "collect",
+  "Type": "Workflow",
+  "Folder": "tcp",
+  "Owner": "mzadmin",
+  "Is Valid": true,
+  "Access Groups -read -write -execute": [
+    "Administrator",
+    "Administrator",
+    "Administrator"
+  ],
+  "Auxiliary Data": {
+    "Entries": [
+      {
+        "Key": "Type",
+        "Value": "Realtime"
+      },
+      {
+        "Key": "Standalone",
+        "Value": "false"
+      },
+      {
+        "Key": "Count",
+        "Value": "1"
+      },
+      {
+        "Key": "Autostart",
+        "Value": "false"
+      },
+      {
+        "Key": "DynamicConfig",
+        "Value": "true"
+      }
+    ],
+    "$Version": 2.0
+  },
+  "Data": {
+    "dynamicInstances": true,
+    "errorMimNames": [],
+    "fieldTypes": [
+      {
+        "exportAlias": "TcpPort",
+        "exportDescription": "IP Port to bind to",
+        "fieldInstanceType": "Instance",
+        "fieldName": "port",
+        "nodeId": -2060415568,
+        "nodeName": "TCP_IP_1",
+        "section": "TCP/IP",
+        "$Version": 1.0
+      }
+    ],
+    "groupTags": [],
+    "instances": [
+      {
+        "cellValues": [
+          {
+            "type": "DEFAULT",
+            "$Version": 1.0
+          }
+        ],
+        "instanceId": 1,
+        "instanceName": "workflow_1",
+        "validType": "Not Validated",
+        "validationError": "Not Validated",
+        "$Version": 1.0
+      }
+    ],
+    "nodes": [
+      {
+        "Name": "TCP_IP_1",
+        "ID": -2060415568,
+        "Classname": "com.digitalroute.wfc.tcpipcoll.TCPIPCollInsp",
+        "Configuration": [
+          {
+            "Type": 1,
+            "Classname": "com.digitalroute.wfc.tcpipcoll.TCPIPCollInsp",
+            "Data": {
+              "host": "",
+              "maxConnections": 2,
+              "multiple": true,
+              "port": 3210,
+              "response": false,
+              "state": false,
+              "$Type": "dr.TCPIPCollData",
+              "$Version": 10.0
+            },
+            "$Version": 1.0
+          },
+          {
+            "Type": 0,
+            "Classname": "com.digitalroute.wfc.ultra.server.service.RealtimeDecoderInsp",
+            "Data": {
+              "doFullDecode": false,
+              "$Type": "dr.RealtimeDecoderConfig",
+              "$Version": 11.0
+            },
+            "$Version": 1.0
+          }
+        ],
+        "XYposition": {
+          "x": 50,
+          "y": 50,
+          "$Version": 1.0
+        },
+        "$Version": 2.0
+      },
+      {
+        "Name": "Analysis_1",
+        "ID": -540133671,
+        "Classname": "com.digitalroute.wfc.analysis.AnalysisRealtimeInsp",
+        "Configuration": [
+          {
+            "Type": 1,
+            "Classname": "com.digitalroute.wfc.analysis.AnalysisRealtimeInsp",
+            "Data": {
+              "sourceCode": "consume {
+    debug(input);
+}",
+              "udrTypes": [
+                {
+                  "typeName": "bytearray",
+                  "$Version": 1.0
+                }
+              ],
+              "$Type": "dr.StuffyMapperData",
+              "$Version": 10.0
+            },
+            "$Version": 1.0
+          }
+        ],
+        "XYposition": {
+          "x": 150,
+          "y": 50,
+          "$Version": 1.0
+        },
+        "$Version": 2.0
+      }
+    ],
+    "persistentData": {
+      "$Version": 10.0
+    },
+    "routes": [
+      {
+        "destinationId": -540133671,
+        "id": -2,
+        "name": "r_1",
+        "realtimeMode": "Not set",
+        "routeStyle": "Bezier",
+        "sourceId": -2060415568,
+        "stroke": [
+          {
+            "x": 77,
+            "y": 27,
+            "$Version": 1.0
+          },
+          {
+            "x": 93,
+            "y": 18,
+            "$Version": 1.0
+          },
+          {
+            "x": 108,
+            "y": 18,
+            "$Version": 1.0
+          },
+          {
+            "x": 124,
+            "y": 28,
+            "$Version": 1.0
+          }
+        ],
+        "$Version": 1.0
+      }
+    ],
+    "services": [],
+    "templateValid": true,
+    "threadData": {
+      "countInterval": 1,
+      "queueSize": 1000,
+      "queueStrategy": "Blocking queue",
+      "queueWorkerStrategy": "RoundRobin",
+      "standalone": false,
+      "threads": 8,
+      "$Version": 10.0
+    },
+    "wfExecutionConfig": {
+      "debugType": "Event",
+      "executionSettings": {
+        "distributionType": "Round Robin",
+        "enabled": false,
+        "executionGroups": [],
+        "$Version": 1.0
+      },
+      "noOfFilesToKeep": 0,
+      "$Version": 10.0
+    },
+    "wfIdCounter": 1,
+    "$Type": "dr.WorkflowRealtimeData",
+    "$Version": 1.0
+  },
+  "documentation": "",
+  "Is Dry Run": false,
+  "$Type": "dr.Configuration",
+  "$Version": 10.0
+}

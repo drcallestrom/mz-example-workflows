@@ -1,0 +1,39 @@
+metadata:
+  name: "radiuscollect"
+apiVersion: "mz.digitalroute.com/v1alpha1"
+kind: "ECDeployment"
+spec:
+  ecGroups: "radiuscollect"
+  jvmArgs:
+  - "Xms512m"
+  - "Xmx512m"
+  nodeHost: "worker1.example.digitalroute.com"
+  exportJmxMetrics: false
+  resources:
+    requests:
+      memory: "320.0Mi"
+      cpu: "500m"
+    limits:
+      memory: "640.0Mi"
+      cpu: "1000m"
+  workflows:
+  - template: "radius_outbound_overload.response"
+    instances:
+    - name: "response"
+      useExtRef: "{}"
+      parameters: "{\"RadiusPort\":9991}"
+    packageVersion: "1.0"
+    packageName: "RadiusCollect"
+  services:
+  - spec:
+      externalTrafficPolicy: "Local"
+      type: "NodePort"
+      ports:
+      - protocol: "UDP"
+        port: 9991
+        name: "port-0"
+        targetPort: 9991
+  manualUpgrade: false
+  ports:
+  - containerPort: 9991
+

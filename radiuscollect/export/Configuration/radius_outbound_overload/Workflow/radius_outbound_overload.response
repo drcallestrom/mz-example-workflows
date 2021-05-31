@@ -1,0 +1,331 @@
+{
+  "Key": "MZ1393235600727",
+  "Name": "response",
+  "Type": "Workflow",
+  "Folder": "radius_outbound_overload",
+  "Owner": "mzadmin",
+  "Is Valid": true,
+  "Access Groups -read -write -execute": [
+    "Administrator",
+    "Administrator",
+    "Administrator"
+  ],
+  "Auxiliary Data": {
+    "Entries": [
+      {
+        "Key": "Type",
+        "Value": "Realtime"
+      },
+      {
+        "Key": "Standalone",
+        "Value": "false"
+      },
+      {
+        "Key": "Count",
+        "Value": "1"
+      },
+      {
+        "Key": "Autostart",
+        "Value": "false"
+      },
+      {
+        "Key": "DynamicConfig",
+        "Value": "true"
+      }
+    ],
+    "$Version": 2.0
+  },
+  "Data": {
+    "dynamicInstances": true,
+    "errorMimNames": [],
+    "fieldTypes": [
+      {
+        "exportAlias": "RadiusPort",
+        "exportDescription": "IP Port to bind Radius agent",
+        "fieldInstanceType": "Instance",
+        "fieldName": "port",
+        "nodeId": 1,
+        "nodeName": "Radius_1",
+        "section": "Miscellaneous",
+        "$Version": 1.0
+      }
+    ],
+    "groupTags": [],
+    "instances": [
+      {
+        "cellValues": [
+          {
+            "type": "DEFAULT",
+            "$Version": 1.0
+          }
+        ],
+        "instanceId": 1,
+        "instanceName": "workflow_1",
+        "validType": "Not Validated",
+        "validationError": "Not Validated",
+        "$Version": 1.0
+      }
+    ],
+    "nodes": [
+      {
+        "Name": "Radius_1",
+        "ID": 1,
+        "Classname": "com.digitalroute.wfc.radiusinput.RadiusInputInsp",
+        "Configuration": [
+          {
+            "Type": 1,
+            "Classname": "com.digitalroute.wfc.radiusinput.RadiusInputInsp",
+            "Data": {
+              "additional_hosts": "",
+              "dupCheckType": 1,
+              "hosts": [
+                {
+                  "Host address": "127.0.0.1",
+                  "Secret key": "mycketmyckethemligt",
+                  "Max TPS": -2147483648,
+                  "$Version": 1.1
+                }
+              ],
+              "pduLifeTime": 700,
+              "port": 9991,
+              "skipMD5Calc": false,
+              "$Type": "dr.RadiusInputData",
+              "$Version": 10.0
+            },
+            "$Version": 1.0
+          }
+        ],
+        "XYposition": {
+          "x": 120,
+          "y": 130,
+          "$Version": 1.0
+        },
+        "$Version": 2.0
+      },
+      {
+        "Name": "Analysis_1",
+        "ID": 2,
+        "Classname": "com.digitalroute.wfc.analysis.AnalysisRealtimeInsp",
+        "Configuration": [
+          {
+            "Type": 1,
+            "Classname": "com.digitalroute.wfc.analysis.AnalysisRealtimeInsp",
+            "Data": {
+              "sourceCode": "import ultra.radius.radiusExtended; // (1)
+
+boolean sendReject;
+
+synchronized void toggleSendReject()  {
+    sendReject = !sendReject;
+}                   
+
+consume {
+    Radius r = (Radius)input;  
+
+debug(input);
+debug(\"----------------------------------------\");
+debug(r);
+debug(\"----------------------------------------\");
+
+    string result;
+    list<drudr> UDRlist = listCreate(drudr);
+   
+    result = udrDecode( \"Request_Dec\", // Decoder Name
+                        UDRlist,
+                        r.requestMessage,
+                        true);
+
+    if (null != result) {
+        debug(\"udrDecode FAILED: \"+result);
+        return;
+    }
+
+    int i;
+    int antObjects = listSize(UDRlist);
+    drudr aReq;
+    
+    while (i < antObjects) {
+        
+        aReq = listGet(UDRlist, i);
+
+        if (instanceOf(aReq, Accounting_Request_Int)) {
+            Accounting_Request_Int  req  = (Accounting_Request_Int)aReq;
+            Accounting_Response_Int resp = udrCreate(Accounting_Response_Int);
+
+            debug(\"Accounting Request  with ID=\" + req.Identifier  + \" and hashkey=\" + r.hashKey + \" from : \" + r.remoteIP + \":\" + r.remotePort);
+            debug(\"Accounting Response with ID=\" + resp.Identifier + \" and hashkey=\" + r.hashKey + \" to   : \" + r.sourceIP + \":\" + r.sourcePort);
+            debug(\"---------------------------------------------------------------------------------------------------\");
+            
+            resp.Code          = 5;
+            resp.Identifier    = req.Identifier;
+            resp.Authenticator = req.Authenticator;
+            resp.NAS_Port      = req.NAS_Port;
+            r.responseMessage  = udrEncode(\"Response_Enc\", resp);
+
+            udrRoute(r, \"Responses\");
+        } else if (instanceOf(aReq, Access_Request_Int)) {
+            Access_Request_Int  req  = (Access_Request_Int)aReq;
+
+            if (sendReject) {
+                Access_Reject_Int resp = udrCreate(Access_Reject_Int);
+                list<string> respList = listCreate(string);
+
+                debug(\"Access Request  with ID=\" + req.Identifier  + \" and hashkey=\" + r.hashKey + \" from : \" + r.remoteIP + \":\" + r.remotePort);
+                debug(\"Access Response with ID=\" + resp.Identifier + \" and hashkey=\" + r.hashKey + \" to   : \" + r.sourceIP + \":\" + r.sourcePort);
+                debug(\"---------------------------------------------------------------------------------------------------\");
+
+                listAdd(respList, \"Access denied for no special reason. Just won't let you in.\");
+
+                resp.Authenticator   = req.Authenticator;
+                resp.Code            = 3;
+                resp.Identifier      = req.Identifier;
+                resp.Reply_Message   = respList;
+                r.responseMessage    = udrEncode(\"Response_Enc\", resp);
+
+                toggleSendReject();
+
+                udrRoute(r, \"Responses\");
+            } else {
+                Access_Accept_Int resp = udrCreate(Access_Accept_Int);
+
+                debug(\"Access Request  with ID=\" + req.Identifier  + \" and hashkey=\" + r.hashKey + \" from : \" + r.remoteIP + \":\" + r.remotePort);
+                debug(\"Access Response with ID=\" + resp.Identifier + \" and hashkey=\" + r.hashKey + \" to   : \" + r.sourceIP + \":\" + r.sourcePort);
+                debug(\"---------------------------------------------------------------------------------------------------\");
+
+                resp.Code            = 2;
+                resp.Identifier      = req.Identifier;
+                resp.Authenticator   = req.Authenticator;
+
+                resp.Login_TCP_Port  = 6789;
+                r.responseMessage    = udrEncode(\"Response_Enc\", resp);
+
+                toggleSendReject();
+
+                udrRoute(r, \"Responses\");
+            }
+        } else {
+            debug(\"*** Invalid radius request from \"+r.remoteIP+\":\"+r.remotePort+\" ***\");
+        }
+
+        i = i + 1;
+    }
+    
+}",
+              "udrTypes": [
+                {
+                  "typeName": "radius.Radius",
+                  "$Version": 1.0
+                }
+              ],
+              "$Type": "dr.StuffyMapperData",
+              "$Version": 10.0
+            },
+            "$Version": 1.0
+          }
+        ],
+        "XYposition": {
+          "x": 320,
+          "y": 140,
+          "$Version": 1.0
+        },
+        "$Version": 2.0
+      }
+    ],
+    "persistentData": {
+      "$Version": 10.0
+    },
+    "routes": [
+      {
+        "destinationId": 2,
+        "id": 1,
+        "name": "r_1",
+        "realtimeMode": "Not set",
+        "routeStyle": "Bezier",
+        "sourceId": 1,
+        "stroke": [
+          {
+            "x": 147,
+            "y": 116,
+            "$Version": 1.0
+          },
+          {
+            "x": 206,
+            "y": 97,
+            "$Version": 1.0
+          },
+          {
+            "x": 247,
+            "y": 88,
+            "$Version": 1.0
+          },
+          {
+            "x": 294,
+            "y": 118,
+            "$Version": 1.0
+          }
+        ],
+        "$Version": 1.0
+      },
+      {
+        "destinationId": 1,
+        "id": 3,
+        "name": "Responses",
+        "realtimeMode": "Not set",
+        "routeStyle": "Bezier",
+        "sourceId": 2,
+        "stroke": [
+          {
+            "x": 294,
+            "y": 140,
+            "$Version": 1.0
+          },
+          {
+            "x": 244,
+            "y": 151,
+            "$Version": 1.0
+          },
+          {
+            "x": 195,
+            "y": 153,
+            "$Version": 1.0
+          },
+          {
+            "x": 147,
+            "y": 134,
+            "$Version": 1.0
+          }
+        ],
+        "$Version": 1.0
+      }
+    ],
+    "services": [],
+    "templateValid": true,
+    "threadData": {
+      "countInterval": 1,
+      "queueSize": 32,
+      "queueStrategy": "Blocking queue",
+      "queueWorkerStrategy": "InsertionOrder",
+      "standalone": false,
+      "threads": 2,
+      "$Version": 10.0
+    },
+    "wfExecutionConfig": {
+      "debugType": "Event",
+      "executionSettings": {
+        "distributionType": "Round Robin",
+        "enabled": false,
+        "executionGroups": [],
+        "$Version": 1.0
+      },
+      "noOfFilesToKeep": 0,
+      "$Version": 10.0
+    },
+    "wfIdCounter": 1,
+    "$Type": "dr.WorkflowRealtimeData",
+    "$Version": 1.0
+  },
+  "documentation": "",
+  "Is Dry Run": false,
+  "$Type": "dr.Configuration",
+  "$Version": 10.0
+}

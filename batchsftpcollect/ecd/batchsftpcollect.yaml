@@ -1,0 +1,18 @@
+metadata:
+  name: "batch-ecd"
+apiVersion: "mz.digitalroute.com/v1alpha1"
+kind: "ECDeployment"
+spec:
+  ecGroups: "batch-ecd"
+  jvmArgs:
+  - "Xms512m"
+  - "Xmx512m"
+  exportJmxMetrics: false
+  resources:
+    requests:
+      memory: "320.0Mi"
+      cpu: "500m"
+    limits:
+      memory: "640.0Mi"
+      cpu: "1000m"
+  manualUpgrade: false

@@ -1,0 +1,7 @@
+{
+  "Name": "ecd-test-si",
+  "Type": "ec",
+  "Colour": "#044560",
+  "$Type": "com.digitalroute.transport.PicoGroupExporter$PicoGroupStorable",
+  "$Version": 2.0
+}
