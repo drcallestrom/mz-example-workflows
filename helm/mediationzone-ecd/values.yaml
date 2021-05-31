@@ -1,0 +1,52 @@
+spec:
+  jvmArgs:
+  - "Xms256m"
+  - "Xmx256m"
+  exportJmxMetrics: true
+  resources:
+    requests:
+      memory: "320.0Mi"
+      cpu: "500m"
+    limits:
+      memory: "320.0Mi"
+      cpu: "1000m"
+  disabled: false
+  manualUpgrade: false  
+# Configure services here
+#  services:
+#   - spec:
+#       externalTrafficPolicy: "Local"
+#       type: "NodePort"
+#       ports:
+#       - protocol: "UDP"
+#         port: 9991
+#         name: "port-0"
+#         targetPort: 9991  
+# Configure ingress here
+#  ingress:
+#    paths:
+#    - path: "/ingresspath"
+#      port: 8899
+#    host: "ingress.example.domain.com"
+#    tlsSecretName: "mz-cert"
+# Configure workflows here
+#  workflows:
+#  - template: "folder.workflowtemplate"
+#    instances:
+#    - name: "wf"
+#      useExtRef: "{}"
+#      parameters: "{}"
+#    packageVersion: 0.1
+#    packageName: wfpackage
+#  ports:
+#  - containerPort: 8899
+#  autoscale:
+#    maxReplicas: 4
+#    minReplicas: 1
+#    metrics:
+#    - resource:
+#        name: "cpu"
+#        target:
+#          averageUtilization: 50
+#          type: "Utilization"
+#      type: "Resource"

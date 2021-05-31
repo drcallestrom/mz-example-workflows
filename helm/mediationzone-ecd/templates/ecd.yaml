@@ -1,0 +1,9 @@
+apiVersion: mz.digitalroute.com/v1alpha1
+kind: ECDeployment
+metadata:
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app.kubernetes.io/component: {{ .Release.Name }}
+spec:
+{{ toYaml .Values.spec | indent 2 }}
