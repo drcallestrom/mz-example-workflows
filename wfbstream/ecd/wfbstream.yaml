@@ -21,8 +21,6 @@ spec:
     - name: "forwarder"
       useExtRef: "{}"
       parameters: "{\"StreamID\":\"1\"}"
-    packageVersion: "1.0"
-    packageName: "wfbstream"
   manualUpgrade: false
 ---
 metadata:

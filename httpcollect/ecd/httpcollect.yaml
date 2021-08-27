@@ -27,8 +27,6 @@ spec:
     - name: "collect"
       useExtRef: "{}"
       parameters: "{}"
-    packageVersion: "1.0"
-    packageName: "HttpCollect"
   manualUpgrade: false
   ports:
   - containerPort: 8080

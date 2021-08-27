@@ -22,8 +22,6 @@ spec:
     - name: "collect3211"
       useExtRef: "{}"
       parameters: "{\"TcpPort\":3211}"
-    packageVersion: "1.0"
-    packageName: "TcpCollect"
   services:
   - spec:
       externalTrafficPolicy: "Cluster"

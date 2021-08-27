@@ -22,8 +22,6 @@ spec:
     - name: "response"
       useExtRef: "{}"
       parameters: "{\"RadiusPort\":9991}"
-    packageVersion: "1.0"
-    packageName: "RadiusCollect"
   services:
   - spec:
       externalTrafficPolicy: "Local"
