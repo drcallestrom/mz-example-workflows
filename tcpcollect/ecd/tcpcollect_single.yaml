@@ -15,7 +15,7 @@ spec:
     limits:
       memory: "640.0Mi"
       cpu: "1000m"
-  disabled: true
+  disabled: false
   workflows:
   - template: "tcp.collect"
     instances:
