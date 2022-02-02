@@ -1,0 +1,64 @@
+---
+metadata:
+  name: "diskcollection-ecd"
+  labels:
+    version: v1
+apiVersion: "mz.digitalroute.com/v1alpha1"
+kind: "ECDeployment"
+spec:
+  jvmArgs:
+  - "Xms512m"
+  - "Xmx512m"
+  exportJmxMetrics: false
+  resources:
+    requests:
+      memory: "640Mi"
+    limits:
+      memory: "640Mi"
+  workflows:
+    - template: "Batch.disk-collect-dynamic"
+      instances:
+      - name: "dyn1"
+        parameters: "{\"Directory\":\"/opt/mz/log\",\"Filename\":\".*.log\"}"
+      packageVersion: "1.0"
+      packageName: "diskCollect"
+  workflowGroups:
+    - name: "diskGroup1"
+      folder: "Default"
+      accessGroups: ["Administrator", "Administrator", "Administrator"]
+      data:
+        schedule:
+          eventTriggers: []
+          allDayPlans:
+            - shallExecute: true
+              start: "00:00:00"
+              stop: "23:59:59"
+              type: "DAILY"
+              day: 0
+              interval:
+                type: "MIN"
+                number: 1
+        delay: 0
+        maxRunningWorkflows: 10
+        continuousExecution: false
+        abortBehavior: "Continue"
+        executionSettings:
+          distributionType: "ROUND_ROBIN"
+          enabled: true
+          executionGroups:
+            - "diskcollection-ecd"
+      memberList:
+        - name: "disk-collect-dynamic"
+          folder: "Batch"
+          memberSpecs:
+            - name: "dyn1"
+          workflowType: BATCH
+          packageVersion: "1.0"
+          packageName: "diskCollect"
+        - name: "disk-collect"
+          folder: "Batch"
+          memberSpecs:
+            - name: "workflow_1"
+          workflowType: BATCH
+  manualUpgrade: false
+

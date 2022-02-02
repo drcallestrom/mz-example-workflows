@@ -1,0 +1,21 @@
+{
+  "Entries": [
+    {
+      "TEMPLATE": "MZ1642603750174",
+      "INSTANCE_KEY": 2048,
+      "INSTANCE_NAME": "dyn1",
+      "FIELD_PARAMS": "{\"Directory\":\"/Users/henrik.palsson/Git/drx/mediationzone/mzhomes/err_ama/log\"}",
+      "USE_EXT_REF": "{}",
+      "EC_NAME": "",
+      "CREATOR": "mzadmin",
+      "MODIFIED_DATE": 1642603857418,
+      "CONFIG_VERSION": 2,
+      "VERSION": "a18d7c56-eeca-417a-887f-ff7d1541ab4c",
+      "$Version": 1.0
+    }
+  ],
+  "Template Key": "MZ1642603750174",
+  "Template Name": "Batch.disk-collect-dynamic",
+  "$Type": "com.digitalroute.dynamic_config_server.api.WFInstanceEntries",
+  "$Version": 1.0
+}

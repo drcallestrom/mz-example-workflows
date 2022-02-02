@@ -1,0 +1,277 @@
+{
+  "Key": "MZ1642603436233",
+  "Name": "disk-collect",
+  "Type": "Workflow",
+  "Folder": "Batch",
+  "Owner": "mzadmin",
+  "Is Valid": true,
+  "Access Groups -read -write -execute": [
+    "Administrator",
+    "Administrator",
+    "Administrator"
+  ],
+  "Auxiliary Data": {
+    "Entries": [
+      {
+        "Key": "Type",
+        "Value": "Batch"
+      },
+      {
+        "Key": "Standalone",
+        "Value": "false"
+      },
+      {
+        "Key": "Count",
+        "Value": "2"
+      },
+      {
+        "Key": "Autostart",
+        "Value": "false"
+      },
+      {
+        "Key": "DynamicConfig",
+        "Value": "false"
+      }
+    ],
+    "$Version": 2.0
+  },
+  "Data": {
+    "auditLogOnCancelBatch": false,
+    "cancelBatchType": "Abort immediately",
+    "consecutiveCount": 0,
+    "dynamicInstances": false,
+    "errorMimNames": [],
+    "fieldTypes": [
+      {
+        "exportAlias": "",
+        "exportDescription": "",
+        "fieldInstanceType": "Default",
+        "fieldName": "baseDir",
+        "nodeId": 2108931552,
+        "nodeName": "Disk_1",
+        "section": "Source",
+        "$Version": 1.0
+      }
+    ],
+    "instances": [
+      {
+        "cellValues": [
+          {
+            "type": "VALUE",
+            "value": {
+              "$Value": "/opt/mz/persistent/log/ec",
+              "$Type": "string"
+            },
+            "$Version": 1.0
+          }
+        ],
+        "instanceId": 1,
+        "instanceName": "workflow_1",
+        "validType": "Valid",
+        "$Version": 1.0
+      },
+      {
+        "cellValues": [
+          {
+            "type": "DEFAULT",
+            "$Version": 1.0
+          }
+        ],
+        "instanceId": 2,
+        "instanceName": "workflow_2",
+        "validType": "Valid",
+        "$Version": 1.0
+      }
+    ],
+    "isErrorBatchTypeECS": false,
+    "nodes": [
+      {
+        "Name": "Disk_1",
+        "ID": 2108931552,
+        "Classname": "com.digitalroute.wfc.diskinput.DiskAdvInputInsp",
+        "Configuration": [
+          {
+            "Type": 1,
+            "Classname": "com.digitalroute.wfc.diskinput.DiskAdvInputInsp",
+            "Data": {
+              "routeFileRef": false,
+              "strategyClasses": [
+                "com.digitalroute.misc.advcoll.impl.DefaultFileInfo",
+                "com.digitalroute.misc.advcoll.impl.DefaultSourceFileHandling"
+              ],
+              "strategyCombinationClass": "com.digitalroute.misc.advcoll.impl.DefaultCollectionStrategy",
+              "strategyConfigs": [
+                {
+                  "baseDir": "/opt/mz/persistent/log",
+                  "compType": "No Compression",
+                  "fileRegExp": ".*.log",
+                  "subfolders": false,
+                  "$Type": "dr.DefaultFileInfoConfig",
+                  "$Version": 10.0
+                },
+                {
+                  "idleTime": 0,
+                  "moveBeforeRetrieval": false,
+                  "moveSuffix": "",
+                  "rbDirectory": "",
+                  "rbKeepInterval": -1,
+                  "rbRenamePrefix": "",
+                  "rbRenameSuffix": "",
+                  "rbReplace": "",
+                  "rbSearch": "",
+                  "rbType": "Ignore",
+                  "$Type": "dr.DefaultSourceFileHandlingConfig",
+                  "$Version": 10.0
+                }
+              ],
+              "$Type": "dr.DiskAdvInputData",
+              "$Version": 10.0
+            },
+            "$Version": 1.0
+          },
+          {
+            "Type": 0,
+            "Classname": "com.digitalroute.devkit.wf.DRFNSServiceInsp",
+            "Data": {
+              "enabled": false,
+              "nextSeqNo": {
+                "SeqNo": -1,
+                "SeqNoUpdate": 0,
+                "$Version": 2.0
+              },
+              "nextSeqNoValue": -1,
+              "seqNoChk": 0,
+              "seqNoLen": -1,
+              "shallWarnOnOutOfSequence": false,
+              "startPos": -1,
+              "wrapOnSeqNo": -1,
+              "wrapToSeqNo": -1,
+              "$Type": "dr.DRFNSServiceConfigExtension",
+              "$Version": 10.0
+            },
+            "$Version": 1.0
+          },
+          {
+            "Type": 0,
+            "Classname": "com.digitalroute.devkit.wf.DRFileInfoSortOrderServiceInsp",
+            "Data": {
+              "enabled": false,
+              "ignoreCase": false,
+              "length": 0,
+              "orderType": "Filename Value",
+              "patternType": "Position",
+              "sortOrder": "Ascending",
+              "sortType": "Alphanumeric",
+              "startPos": 0,
+              "$Type": "dr.DRFileInfoSortOrderServiceConfig",
+              "$Version": 10.0
+            },
+            "$Version": 1.0
+          }
+        ],
+        "XYposition": {
+          "x": 160,
+          "y": 200,
+          "$Version": 1.0
+        },
+        "$Version": 2.0
+      },
+      {
+        "Name": "Analysis_1",
+        "ID": -1939312021,
+        "Classname": "com.digitalroute.wfc.analysis.StuffyMapperInsp",
+        "Configuration": [
+          {
+            "Type": 1,
+            "Classname": "com.digitalroute.wfc.analysis.StuffyMapperInsp",
+            "Data": {
+              "sourceCode": "consume {
+    debug(input);
+}",
+              "udrTypes": [
+                {
+                  "typeName": "bytearray",
+                  "$Version": 1.0
+                }
+              ],
+              "$Type": "dr.StuffyMapperData",
+              "$Version": 10.0
+            },
+            "$Version": 1.0
+          },
+          {
+            "Type": 0,
+            "Classname": "com.digitalroute.devkit.hidden.DRThreadBufferInsp",
+            "Data": {
+              "printStats": false,
+              "useOwnThread": false,
+              "$Type": "dr.DRThreadBufferConfig",
+              "$Version": 10.0
+            },
+            "$Version": 1.0
+          }
+        ],
+        "XYposition": {
+          "x": 390,
+          "y": 210,
+          "$Version": 1.0
+        },
+        "$Version": 2.0
+      }
+    ],
+    "routes": [
+      {
+        "destinationId": -1939312021,
+        "id": -2,
+        "name": "r_1",
+        "realtimeMode": "Not set",
+        "routeStyle": "Bezier",
+        "sourceId": 2108931552,
+        "stroke": [
+          {
+            "x": 187,
+            "y": 186,
+            "$Version": 1.0
+          },
+          {
+            "x": 247,
+            "y": 172,
+            "$Version": 1.0
+          },
+          {
+            "x": 306,
+            "y": 174,
+            "$Version": 1.0
+          },
+          {
+            "x": 364,
+            "y": 194,
+            "$Version": 1.0
+          }
+        ],
+        "$Version": 1.0
+      }
+    ],
+    "services": [],
+    "templateValid": true,
+    "wfExecutionConfig": {
+      "debugType": "Event",
+      "executionSettings": {
+        "distributionType": "Round Robin",
+        "enabled": false,
+        "executionGroups": [],
+        "$Version": 1.0
+      },
+      "noOfFilesToKeep": 0,
+      "txnHandler": "Default Handler",
+      "$Version": 10.0
+    },
+    "wfIdCounter": 2,
+    "$Type": "dr.WorkflowBatchData",
+    "$Version": 1.0
+  },
+  "documentation": "",
+  "Is Dry Run": false,
+  "$Type": "dr.Configuration",
+  "$Version": 10.1
+}
