@@ -16,10 +16,10 @@ spec:
   exportJmxMetrics: false
   resources:
     requests:
-      memory: "320.0Mi"
+      memory: "640Mi"
       cpu: "500m"
     limits:
-      memory: "320.0Mi"
+      memory: "640Mi"
       cpu: "1000m"
   disabled: false
   workflows:
