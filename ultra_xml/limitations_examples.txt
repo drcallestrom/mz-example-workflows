@@ -1,0 +1,235 @@
+<!--
+
+	Examples of not supported in Ultra XML
+	========================================================
+
+-->
+
+
+<!-- schema (root) level -->
+
+<xs:import namespace="https://www.w3schools.com/schema"/>
+
+<xs:redefine schemaLocation="Myschema1.xsd">
+  <xs:complexType name="pname">
+    <xs:complexContent>
+      <xs:extension base="pname">
+        <xs:sequence>
+          <xs:element name="country"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:redefine>
+
+<xs:group name="custGroup">
+  <xs:sequence>
+    <xs:element name="customer" type="xs:string"/>
+    <xs:element name="orderdetails" type="xs:string"/>
+    <xs:element name="billto" type="xs:string"/>
+    <xs:element name="shipto" type="xs:string"/>
+  </xs:sequence>
+</xs:group>
+
+<xs:attribute name="code">
+  <xs:simpleType>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[A-Z][A-Z]"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:attribute>
+
+<xs:notation name="gif" public="image/gif" system="view.exe"/>
+
+
+<xs:annotation>
+  <xs:appinfo>W3Schools Note</xs:appinfo> <!-- not supported but will compile -->
+  <xs:documentation xml:lang="en">        <!-- not supported but will compile -->
+  This Schema defines a W3Schools note!
+  </xs:documentation>
+</xs:annotation>
+
+
+<!--  end root level -->
+
+
+<!-- Various unsupported functionality -->
+
+<xs:element name="unique" type="car">
+	<xs:unique name="nameUniqueness"> <!-- not supported but will compile -->
+		<xs:selector xpath= "ex:character"/>
+		<xs:field xpath="ex:name"/>
+	</xs:unique>
+</xs:element>
+
+<xs:element name="root">
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element name="referenced">
+                <xs:complexType>
+                    <xs:attribute name="id" type="xs:string" />
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="owner">
+                <xs:complexType>
+                    <xs:attribute name="id" type="xs:string" />
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:key name="aKey">   <!-- not supported but will compile -->
+        <xs:selector xpath="owner" />
+        <xs:field xpath="@id" />
+    </xs:key>
+    <xs:keyref name="aKeyRef" refer="aKey">  <!-- not supported but will compile -->
+        <xs:selector xpath="referenced" />
+        <xs:field xpath="@id" />
+    </xs:keyref>
+</xs:element>
+
+
+<xs:complexType name="ACustomer">
+	<xs:group>             <!-- will not compile -->
+	  <xs:sequence>
+	    <xs:element name="customer" type="xs:string"/>
+	    <xs:element name="orderdetails" type="xs:string"/>
+	    <xs:element name="billto" type="xs:string"/>
+	    <xs:element name="shipto" type="xs:string"/>
+	  </xs:sequence>
+	</xs:group>
+</xs:complexType>
+
+<xs:element name="person">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="firstname" type="xs:string"/>
+      <xs:element name="lastname" type="xs:string"/>
+    </xs:sequence>
+    <xs:anyAttribute/> <!-- will not compile -->
+  </xs:complexType>
+</xs:element>
+
+
+<xs:complexType name="Norwegian_customer">
+  <xs:complexContent>
+    <xs:restriction base="customer">    <!-- will not compile -->
+      <xs:sequence>
+        <xs:element name="firstname" type="xs:string"/>
+        <xs:element name="lastname" type="xs:string"/>
+        <xs:element name="country" type="xs:string" fixed="Norway"/>
+      </xs:sequence>
+    </xs:restriction>
+  </xs:complexContent>
+</xs:complexType>
+
+<xs:simpleType name="valuelist">
+  <xs:list itemType="xs:integer"/> <!-- will not compile -->
+</xs:simpleType>
+
+<xs:complexType name="customer">
+  <xs:sequence>
+    <xs:element name="alist" type="valuelist"/>
+    <xs:element name="firstname" type="xs:string"/>
+    <xs:element name="lastname" type="xs:string"/>
+    <xs:element name="country" type="xs:string"/>
+  </xs:sequence>
+</xs:complexType>
+
+<xs:complexType name= "udr">
+  <xs:simpleContent>
+    <xs:extension base="xs:string">
+      <xs:attribute name="sex">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">  <!-- has no effect -->
+            <xs:enumeration value="male"/>
+            <xs:enumeration value="female"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:extension>
+  </xs:simpleContent>
+</xs:complexType>
+
+<simpleType name="restrictedshort">
+  <restriction base="short">
+  	<minInclusive value="0"/>
+  	<maxInclusive value="120"/>
+  	<totalDigits value="2"/>  <!-- will not compile -->
+  </restriction>
+</simpleType>
+
+<element name="person">
+  <complexType>
+    <choice>
+      <element name="employee" type="employee"/>
+      <element name="member" type="member"/>
+      <xs:any minOccurs="0"/> 						<!-- has no effect (I think) -->
+	  <sequence>									<!-- ignored during compile-->
+	    <xs:element name="customer" type="xs:string"/>
+	    <xs:element name="orderdetails" type="xs:string"/>
+	    <xs:element name="billto" type="xs:string"/>
+	    <xs:element name="shipto" type="xs:string"/>
+	  </sequence>
+      <group>										<!-- ignored during compile-->
+		  <xs:sequence>
+		    <xs:element name="a" type="xs:string"/>
+		    <xs:element name="b" type="xs:string"/>
+		  </xs:sequence>
+      </group>
+      <choice>										<!-- ignored during compile-->
+	    <xs:element name="c" type="xs:string"/>
+	    <xs:element name="d" type="xs:string"/>
+      </choice>
+      </choice>
+  </complexType>
+</element>
+
+<schema>
+	<simpleType name="car">
+		<union>
+          <simpleType>
+              <restriction base="positiveInteger">
+                  <enumeration value="20"/>
+                  <enumeration value="30"/>
+                  <enumeration value="40"/>
+              </restriction>
+          </simpleType>
+          <simpleType>
+              <restriction base="positiveInteger">
+                  <minInclusive value="2"/>
+                  <maxInclusive value="18"/>
+              </restriction>
+          </simpleType>
+          <simpleType>
+              <restriction base="string">
+                  <enumeration value="small"/>
+                  <enumeration value="medium"/>
+                  <enumeration value="large"/>
+              </restriction>
+          </simpleType>
+          <simpleType>
+              <restriction base="string">
+                  <enumeration value="S"/>
+                  <enumeration value="M"/>
+                  <enumeration value="L"/>
+              </restriction>
+          </simpleType>
+		</union>
+	</simpleType>
+	<element name= "udr">
+		<complexType>
+			<sequence>
+				<element name="hello" type="car"/> <!-- I don't think it's possible to use type here, only ref works -->
+			</sequence>
+		</complexType>	
+	</element>
+</schema>
+
+
+<xs:attribute name="code">
+  <xs:simpleType>
+    <xs:restriction base="xs:string"> 		<!-- ignored during compile-->
+      <xs:pattern value="[A-Z][A-Z]"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:attribute>
