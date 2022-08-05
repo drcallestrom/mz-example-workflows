@@ -1,6 +1,7 @@
 # batchsftpcollect
 
-This demo shows how to ...
+This demo shows how to ... The workflow:
+
 ***Pulse --> Analysis --> Aggregation --> Prometheus***
 
 
