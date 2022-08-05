@@ -1,9 +1,14 @@
-# mz-example-workflows
-Example workflows for MediationZone by DigitalRoute
+# DemoSI
 
-The examples are designed to work on latest minor release MediationZone, installed on a Kubernetes cluster.
+This demo shows how to use the Promethues Agent (part of the System Insight functionality). It consists of a workflow and a Grafana dashboard. Note that you need to have Prometheus and Grafana installed as part of your deplyment. The workflow:
 
-Each example consists of a workflow export directory and a directory containing a yaml resource file to deploy the example in a Kubernetes cluster.
+Pulse --> Analysis --> Aggregation --> Prometheus
+
+* Pulse:        Activates data generation (once per second).
+* Analysis:     Creates data. Each record represents some sold volume for a specific country.
+* Aggregation:  Aggregates total sold volumes per country.
+* Prometheus:   Forwards aggregates records to Promethus for storage.
+
 
 To import the workflow example use the mzcli command line tool
 
@@ -18,3 +23,8 @@ To verify that resources are correctly deployed:
 * login to MZOnline web UI and monitor the resources in the EC Deployment view
 *or*
 * Use kubectl to check installed ECD resources: `kubectl describe ecd <example-name>`
+
+To import the Grafana dashboard:
+
+* login to Grafana and import.
+
