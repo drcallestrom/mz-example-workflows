@@ -1,6 +1,6 @@
 # DemoSI
 
-This demo shows how to use the Promethues Agent (part of the System Insight functionality). It consists of a workflow and a Grafana dashboard. Note that you need to have Prometheus and Grafana installed as part of your deplyment. The workflow:
+This demo shows how to use the Promethues Agent (part of the System Insight functionality). It consists of a workflow and a Grafana dashboard. Note that you need to have Prometheus and Grafana installed as part of your deployment. The workflow:
 
 Pulse --> Analysis --> Aggregation --> Prometheus
 
