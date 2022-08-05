@@ -2,13 +2,18 @@
 
 This demo shows how to use the Promethues Agent (part of the System Insight functionality). It consists of a workflow and a Grafana dashboard. Note that you need to have Prometheus and Grafana installed as part of your deployment. The workflow:
 
-Pulse --> Analysis --> Aggregation --> Prometheus
+***Pulse --> Analysis --> Aggregation --> Prometheus***
 
-* Pulse:        Activates data generation (once per second).
-* Analysis:     Creates data. Each record represents some sold volume for a specific country.
-* Aggregation:  Aggregates total sold volumes per country.
-* Prometheus:   Forwards aggregates records to Promethus for storage.
 
+| Agent  | Description |
+| ------------- | ------------- |
+| Pulse        | Activates data generation (once per second).  |
+| Analysis     | Creates data. Each record represents some sold volume for a specific country.  |
+| Aggregation  | Aggregates total sold volumes per country.  |
+| Prometheus   | Forwards aggregates records to Promethus for storage.  |
+
+
+### Import / Deploy
 
 To import the workflow example use the mzcli command line tool
 
