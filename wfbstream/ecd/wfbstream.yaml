@@ -46,8 +46,6 @@ spec:
     - name: "collector"
       useExtRef: "{}"
       parameters: "{\"StreamID\":\"1\"}"
-    packageVersion: "1.0"
-    packageName: "wfbstream"
   services:
   - spec:
       type: "ClusterIP"
