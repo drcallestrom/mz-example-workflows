@@ -1,0 +1,37 @@
+{
+  "User name": "git",
+  "Full name": "git",
+  "Email": "git@git",
+  "Password": "SHA-256>>>-77a54261f367c91a82a901bd77f9b75143b511b542db31412998f9af675ca70ab5e2ed1f27cf470fae2b1f905032795d",
+  "Default Group": "git",
+  "Is Disabled": false,
+  "Groups": [
+    "git"
+  ],
+  "Metadata": [
+    {
+      "Key": "successful_login_date",
+      "Value": "A0AAAAD/nAAAACNjb20uZGlnaXRhbHJvdXRlLmRldmtpdC5taXNjLkRSRGF0ZQEBAAABi2sKAnz/nAAAABBFdXJvcGUvU3RvY2tob2xt"
+    },
+    {
+      "Key": "SCIMInfo",
+      "Value": "Az+mZmb/nAAAAChjb20uZGlnaXRhbHJvdXRlLm1nbXRzZXJ2ZXIuU0NJTU1ldGFkYXRhAQAAAYtrCagF/5wAAAAQRXVyb3BlL1N0b2NraG9sbQEAAAGLawmoNQABAQAAACQ0MGY0NWNlOS0yZmU3LTRhNmEtODkyNC00YmY2Y2M3YzNhMjkBAAAAAAE="
+    },
+    {
+      "Key": "successful_login_ip",
+      "Value": "Az+AAAD/nAAAACxjb20uZGlnaXRhbHJvdXRlLm1nbXRzZXJ2ZXIuTG9naW5JUFJlZmVyZW5jZQEAAAAJbG9jYWxob3N0"
+    }
+  ],
+  "Failed logins": 0,
+  "Password age": -1,
+  "sessionID": -1,
+  "obfuscate": false,
+  "Inactivity period": 0,
+  "Successor": "",
+  "Is SystemUser": false,
+  "Is Validity Enabled": false,
+  "Valid From": 0,
+  "Valid To": 0,
+  "$Type": "dr.UserInfo",
+  "$Version": 5.0
+}
